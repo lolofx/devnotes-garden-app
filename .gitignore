@@ -1,0 +1,42 @@
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# Angular
+/.angular
+.angular/cache
+
+# Testing / coverage
+/coverage
+
+# Build artifacts
+src/assets/content-index.json
+src/assets/content/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# Lockfile (keep package-lock.json for reproducibility)
+# yarn.lock
+# pnpm-lock.yaml
