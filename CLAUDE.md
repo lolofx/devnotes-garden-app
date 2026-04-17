@@ -194,9 +194,11 @@ Format : `<type>(<scope>): <description>`
 Types autorisés : `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `style`, `perf`, `ci`, `build`
 
 Exemples :
-- `feat(search): ajouter la recherche full-text avec Fuse.js`
-- `fix(mermaid): gérer les diagrammes vides sans erreur`
-- `test(note-service): couvrir les cas limites de getRecentNotes`
+- `feat(search): recherche full-text avec Fuse.js`
+- `fix(mermaid): gestion des diagrammes vides`
+- `test(note-service): cas limites de getRecentNotes`
+
+**Style** : une phrase courte, pas de liste, pas de signature. Comme un humain qui commit.
 
 ### PRs
 - Titre = message de commit final
