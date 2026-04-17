@@ -1,0 +1,7 @@
+dist
+.angular
+node_modules
+coverage
+src/assets/content
+src/assets/content-index.json
+*.lock
