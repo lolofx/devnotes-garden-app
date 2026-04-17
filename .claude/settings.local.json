@@ -10,7 +10,8 @@
       "Bash(./node_modules/.bin/husky init *)",
       "Bash(mkdir -p \"C:/Users/lolof/.claude/repo/devnotes-garden-app/content-source\")",
       "Bash(cp -r \"C:/Users/lolof/.claude/repo/devnotes-garden-content/notes\" \"C:/Users/lolof/.claude/repo/devnotes-garden-app/content-source/\")",
-      "Bash(node scripts/build-content-index.mjs)"
+      "Bash(node scripts/build-content-index.mjs)",
+      "Bash(rtk gh *)"
     ]
   }
 }
