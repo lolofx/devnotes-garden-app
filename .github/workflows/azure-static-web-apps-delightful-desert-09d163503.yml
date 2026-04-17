@@ -4,16 +4,16 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '*/10 * * * *'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
-  repository_dispatch:
-    types: [content-updated]
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || github.event_name == 'repository_dispatch' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name == 'push' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
