@@ -2,6 +2,37 @@
 
 > Ce fichier est lu par Claude Code à chaque session. Il contient les règles, conventions et workflows à respecter strictement.
 
+## Commandes de développement
+
+```bash
+rtk npm run start          # serveur de dev (localhost:4200)
+rtk npm run test           # Vitest une fois (--watch=false inclus)
+rtk npm run test:watch     # Vitest en mode watch
+rtk npm run test:coverage  # Vitest avec rapport de coverage
+rtk npm run lint           # ESLint via ng lint
+rtk npm run format         # Prettier (écriture)
+rtk npm run format:check   # Prettier (vérification seule)
+rtk npm run build          # build production
+```
+
+Vérification pré-commit manuelle :
+```bash
+rtk npm run lint && rtk npm run test && rtk npm run build
+```
+
+### GitHub CLI
+
+`gh` est installé dans `C:\Program Files\GitHub CLI\` mais n'est pas dans le PATH de Git Bash. Avant chaque commande `rtk gh ...` :
+
+```bash
+export PATH="$PATH:/c/Program Files/GitHub CLI"
+```
+
+Pour pousser via HTTPS (pas SSH), configurer une fois :
+```bash
+gh auth setup-git
+```
+
 ## Contexte projet
 
 Digital garden personnel Angular 21, hébergé sur Azure Static Web Apps, qui affiche des notes Markdown (depuis un repo GitHub séparé) avec un rendu soigné et des diagrammes Mermaid aux couleurs Event Storming normalisées.
@@ -163,9 +194,9 @@ Format : `<type>(<scope>): <description>`
 Types autorisés : `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `style`, `perf`, `ci`, `build`
 
 Exemples :
-- `feat(search): add full-text search with Fuse.js`
-- `fix(mermaid): handle empty diagram gracefully`
-- `test(note-service): cover getRecentNotes edge cases`
+- `feat(search): ajouter la recherche full-text avec Fuse.js`
+- `fix(mermaid): gérer les diagrammes vides sans erreur`
+- `test(note-service): couvrir les cas limites de getRecentNotes`
 
 ### PRs
 - Titre = message de commit final
@@ -229,6 +260,7 @@ Exemples :
 
 ## Langue
 
-- Code, commentaires, noms de variables, messages de commit : **anglais**
+- Code, commentaires, noms de variables : **anglais**
+- Messages de commit : **français**
 - Documentation projet, SPEC, ROADMAP, notes dans `devnotes-garden-content` : **français**
 - Messages d'erreur visibles à l'utilisateur : **français**
