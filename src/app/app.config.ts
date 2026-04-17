@@ -9,7 +9,7 @@ import { provideMarkdown } from 'ngx-markdown';
 
 import { routes } from './app.routes';
 import { NOTE_REPOSITORY } from './domain/note-repository.token';
-import { StaticNoteRepository } from './infrastructure/static-note-repository';
+import { JsonNoteRepository } from './infrastructure/json-note-repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideMarkdown(),
-    { provide: NOTE_REPOSITORY, useClass: StaticNoteRepository },
+    { provide: NOTE_REPOSITORY, useClass: JsonNoteRepository },
   ],
 };

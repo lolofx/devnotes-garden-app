@@ -46,6 +46,7 @@ Thumbs.db
 # Build artifacts (generated at build time)
 src/assets/content-index.json
 src/assets/content/
+content-source/
 
 # Env
 .env
