@@ -2,8 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 import { NOTE_REPOSITORY } from './domain/note-repository.token';
-import { StaticNoteRepository } from './infrastructure/static-note-repository';
+import { JsonNoteRepository } from './infrastructure/json-note-repository';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -11,7 +12,8 @@ describe('App', () => {
       imports: [App],
       providers: [
         provideRouter(routes),
-        { provide: NOTE_REPOSITORY, useClass: StaticNoteRepository },
+        provideHttpClient(),
+        { provide: NOTE_REPOSITORY, useClass: JsonNoteRepository },
       ],
     }).compileComponents();
   });
