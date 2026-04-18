@@ -60,11 +60,21 @@ describe('JsonNoteRepository', () => {
   it('should fetch the note markdown when getNoteBySlug is called', async () => {
     const promise = repo.getNoteBySlug('note-b');
     httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
-    await Promise.resolve(); // laisser la promesse getIndex() se résoudre
+    await Promise.resolve();
+    await Promise.resolve(); // .catch() handler adds one extra microtask tick
     httpMock.expectOne('/assets/content/ddd/note-b.md').flush('# Note B\n\nContenu.');
     const note = await promise;
     expect(note?.content).toContain('# Note B');
     expect(note?.slug).toBe('note-b');
+  });
+
+  it('should return empty array when content-index.json returns 404', async () => {
+    const promise = repo.getRecentNotes(5);
+    httpMock
+      .expectOne('/assets/content-index.json')
+      .flush('Not Found', { status: 404, statusText: 'Not Found' });
+    const notes = await promise;
+    expect(notes).toHaveLength(0);
   });
 
   it('should return undefined when getNoteBySlug is called with unknown slug', async () => {
