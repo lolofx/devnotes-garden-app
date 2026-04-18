@@ -1,0 +1,22 @@
+# Fichier à copier dans devnotes-garden-content/.github/workflows/trigger-app-rebuild.yml
+#
+# Prérequis : créer un secret DEVNOTES_APP_PAT dans le repo content
+# avec un GitHub PAT ayant le scope "repo" (ou "actions:write" + "contents:read")
+
+name: Trigger app rebuild
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Envoyer repository_dispatch vers le repo app
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DEVNOTES_APP_PAT }}
+          repository: lolofx/devnotes-garden-app
+          event-type: content-updated
