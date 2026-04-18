@@ -11,7 +11,9 @@ export class JsonNoteRepository implements NoteRepository {
   private indexCache: Promise<NoteMetadata[]> | null = null;
 
   private getIndex(): Promise<NoteMetadata[]> {
-    this.indexCache ??= firstValueFrom(this.http.get<NoteMetadata[]>('/assets/content-index.json'));
+    this.indexCache ??= firstValueFrom(
+      this.http.get<NoteMetadata[]>('/assets/content-index.json'),
+    ).catch(() => []);
     return this.indexCache;
   }
 

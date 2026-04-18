@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, existsSync } from 'fs';
 import { join, dirname, relative } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
@@ -44,6 +44,14 @@ function collectMarkdownFiles(dir) {
 }
 
 async function main() {
+  if (!existsSync(CONTENT_SOURCE)) {
+    console.warn('[warn] content-source/notes/ introuvable — index vide généré');
+    mkdirSync(ASSETS_CONTENT, { recursive: true });
+    writeFileSync(INDEX_OUTPUT, JSON.stringify([], null, 2));
+    console.log('[ok] 0 note(s) indexée(s) → src/assets/content-index.json');
+    return;
+  }
+
   const files = collectMarkdownFiles(CONTENT_SOURCE);
   const allNotes = [];
 
