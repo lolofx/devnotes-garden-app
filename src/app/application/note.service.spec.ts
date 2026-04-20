@@ -1,9 +1,11 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { NoteService } from './note.service';
+import { SearchService } from './search.service';
 import { NOTE_REPOSITORY } from '../domain/note-repository.token';
 import { type NoteRepository } from '../domain/note-repository';
 import { type Note } from '../domain/note.model';
+import { type Tag } from '../domain/tag.model';
 
 const MOCK_NOTE: Note = {
   title: 'Bounded Context',
@@ -17,6 +19,8 @@ const MOCK_NOTE: Note = {
   content: '# Contenu',
 };
 
+const MOCK_TAG: Tag = { name: 'ddd', noteCount: 1 };
+
 describe('NoteService', () => {
   let mockRepo: NoteRepository;
   let service: NoteService;
@@ -25,10 +29,13 @@ describe('NoteService', () => {
     mockRepo = {
       getNoteBySlug: vi.fn(),
       getRecentNotes: vi.fn(),
+      getAllNotes: vi.fn(),
+      getAllTags: vi.fn(),
+      getNotesByTag: vi.fn(),
     };
 
     TestBed.configureTestingModule({
-      providers: [NoteService, { provide: NOTE_REPOSITORY, useValue: mockRepo }],
+      providers: [NoteService, SearchService, { provide: NOTE_REPOSITORY, useValue: mockRepo }],
     });
     service = TestBed.inject(NoteService);
   });
@@ -51,5 +58,33 @@ describe('NoteService', () => {
     const notes = await service.getRecentNotes(5);
     expect(notes).toHaveLength(1);
     expect(mockRepo.getRecentNotes).toHaveBeenCalledWith(5);
+  });
+
+  it('should return all notes when getAllNotes is called', async () => {
+    vi.mocked(mockRepo.getAllNotes).mockResolvedValue([MOCK_NOTE]);
+    const notes = await service.getAllNotes();
+    expect(notes).toHaveLength(1);
+    expect(mockRepo.getAllNotes).toHaveBeenCalledOnce();
+  });
+
+  it('should return all tags when getAllTags is called', async () => {
+    vi.mocked(mockRepo.getAllTags).mockResolvedValue([MOCK_TAG]);
+    const tags = await service.getAllTags();
+    expect(tags).toHaveLength(1);
+    expect(mockRepo.getAllTags).toHaveBeenCalledOnce();
+  });
+
+  it('should return notes by tag when getNotesByTag is called', async () => {
+    vi.mocked(mockRepo.getNotesByTag).mockResolvedValue([MOCK_NOTE]);
+    const notes = await service.getNotesByTag('ddd');
+    expect(notes).toHaveLength(1);
+    expect(mockRepo.getNotesByTag).toHaveBeenCalledWith('ddd');
+  });
+
+  it('should return search results when searchNotes is called with matching query', async () => {
+    vi.mocked(mockRepo.getAllNotes).mockResolvedValue([MOCK_NOTE]);
+    const results = await service.searchNotes('Bounded');
+    expect(results).toHaveLength(1);
+    expect(results[0]?.slug).toBe('bounded-context-intro');
   });
 });

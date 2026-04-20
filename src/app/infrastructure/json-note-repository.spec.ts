@@ -83,4 +83,38 @@ describe('JsonNoteRepository', () => {
     const note = await promise;
     expect(note).toBeUndefined();
   });
+
+  it('should return all notes without content when getAllNotes is called', async () => {
+    const promise = repo.getAllNotes();
+    httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
+    const notes = await promise;
+    expect(notes).toHaveLength(2);
+    expect(notes[0]?.content).toBe('');
+    expect(notes[0]?.slug).toBe('note-b');
+  });
+
+  it('should return all tags with note count when getAllTags is called', async () => {
+    const promise = repo.getAllTags();
+    httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
+    const tags = await promise;
+    expect(tags).toHaveLength(2);
+    const sorted = [...tags].sort((a, b) => a.name.localeCompare(b.name));
+    expect(sorted[0]).toEqual({ name: 'bff', noteCount: 1 });
+    expect(sorted[1]).toEqual({ name: 'ddd', noteCount: 1 });
+  });
+
+  it('should return notes filtered by tag when getNotesByTag is called', async () => {
+    const promise = repo.getNotesByTag('ddd');
+    httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
+    const notes = await promise;
+    expect(notes).toHaveLength(1);
+    expect(notes[0]?.slug).toBe('note-b');
+  });
+
+  it('should return empty array when getNotesByTag is called with unknown tag', async () => {
+    const promise = repo.getNotesByTag('unknown');
+    httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
+    const notes = await promise;
+    expect(notes).toHaveLength(0);
+  });
 });
