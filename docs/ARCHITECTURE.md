@@ -166,9 +166,8 @@ export const routes: Routes = [
 .
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml                   # build + test + lint sur PR
-│       ├── deploy.yml               # deploy Azure sur push main
-│       └── content-sync.yml         # déclenché par repository_dispatch depuis content
+│       ├── ci.yml                                                    # build + test + lint sur PR
+│       └── azure-static-web-apps-delightful-desert-09d163503.yml    # deploy Azure (push main + repository_dispatch + PR)
 ├── .husky/
 │   ├── pre-commit                   # lint-staged
 │   └── commit-msg                   # commitlint
@@ -387,17 +386,55 @@ Déclencheurs : PR sur `main`, push sur branches de feature.
 
 Étapes : install deps → lint → test Vitest (coverage > 80%) → build vérif.
 
-### 7.2 Workflow Deploy (`deploy.yml`)
+### 7.2 Workflow Azure SWA (`azure-static-web-apps-delightful-desert-09d163503.yml`)
 
-Déclencheur : push sur `main` du repo app.
+Un seul fichier gère trois déclencheurs :
+- `push` sur `main` du repo app
+- `repository_dispatch` de type `content-updated` (envoyé par le repo content)
+- `pull_request` sur `main` (preview + cleanup)
 
-Étapes : checkout content repo → run `build-content-index.mjs` → `ng build --configuration=production` → deploy vers Azure Static Web Apps (action officielle `Azure/static-web-apps-deploy`).
+La commande de build custom inclut le clonage du repo content avant `ng build` :
+
+```yaml
+app_build_command: >
+  git clone https://github.com/lolofx/devnotes-garden-content.git content-source &&
+  node scripts/build-content-index.mjs &&
+  npm run build
+```
+
+Ce fichier est généré initialement par Azure SWA et modifié manuellement. Ne pas le renommer — Azure l'identifie par son nom pour gérer les previews de PR.
 
 ### 7.3 Workflow Content Sync (`trigger-app-rebuild.yml` côté content)
 
+Fichier situé dans `devnotes-garden-content/.github/workflows/trigger-app-rebuild.yml`.
+
 Déclencheur : push sur `main` du repo content.
 
-Étape unique : envoie un `repository_dispatch` event au repo app pour déclencher `deploy.yml`.
+Envoie un `repository_dispatch` vers le repo app via l'API GitHub :
+
+```yaml
+name: Trigger app rebuild
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send repository_dispatch to app repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.APP_REPO_PAT }}
+          repository: lolofx/devnotes-garden-app
+          event-type: content-updated
+```
+
+**Prérequis** :
+- Créer un PAT GitHub (classic) avec le scope `repo` sur le compte `lolofx`
+- L'ajouter comme secret nommé `APP_REPO_PAT` dans le repo `devnotes-garden-content`
+- L'action `peter-evans/repository-dispatch@v3` envoie l'event ; le repo app l'écoute via `repository_dispatch: types: [content-updated]`
 
 ---
 
