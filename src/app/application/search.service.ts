@@ -6,7 +6,7 @@ import { type Note } from '../domain/note.model';
 export class SearchService {
   search(query: string, notes: readonly Note[]): readonly Note[] {
     if (!query.trim()) return [];
-    const fuse = new Fuse(notes as Note[], {
+    const fuse = new Fuse(notes, {
       keys: ['title', 'summary', 'tags'],
       threshold: 0.4,
     });

@@ -18,7 +18,7 @@ import { NoteService } from '../../../application/note.service';
         matInput
         [matAutocomplete]="auto"
         placeholder="Rechercher..."
-        (input)="query.set($any($event.target).value)"
+        (input)="onInput($event)"
       />
       <mat-autocomplete #auto="matAutocomplete">
         @for (note of results(); track note.slug) {
@@ -43,4 +43,8 @@ export class SearchBarComponent {
     ),
     { initialValue: [] as readonly Note[] },
   );
+
+  onInput(event: Event): void {
+    this.query.set((event.target as HTMLInputElement).value);
+  }
 }
