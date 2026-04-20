@@ -46,7 +46,9 @@ export class JsonNoteRepository implements NoteRepository {
         tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
       });
     });
-    return Array.from(tagMap, ([name, noteCount]) => ({ name, noteCount }));
+    return Array.from(tagMap, ([name, noteCount]) => ({ name, noteCount })).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
   }
 
   async getNotesByTag(tag: string): Promise<readonly Note[]> {
