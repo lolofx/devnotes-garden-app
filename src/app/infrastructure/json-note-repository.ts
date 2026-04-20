@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { type Note } from '../domain/note.model';
 import { type NoteMetadata } from '../domain/note-metadata.model';
 import { type NoteRepository } from '../domain/note-repository';
+import { type Tag } from '../domain/tag.model';
 
 @Injectable({ providedIn: 'root' })
 export class JsonNoteRepository implements NoteRepository {
@@ -30,5 +31,28 @@ export class JsonNoteRepository implements NoteRepository {
       this.http.get(`/assets/content/${meta.theme}/${slug}.md`, { responseType: 'text' }),
     );
     return { ...meta, content };
+  }
+
+  async getAllNotes(): Promise<readonly Note[]> {
+    const index = await this.getIndex();
+    return index.map((meta) => ({ ...meta, content: '' }));
+  }
+
+  async getAllTags(): Promise<readonly Tag[]> {
+    const index = await this.getIndex();
+    const tagMap = new Map<string, number>();
+    index.forEach((meta) => {
+      meta.tags.forEach((tag) => {
+        tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
+      });
+    });
+    return Array.from(tagMap, ([name, noteCount]) => ({ name, noteCount }));
+  }
+
+  async getNotesByTag(tag: string): Promise<readonly Note[]> {
+    const index = await this.getIndex();
+    return index
+      .filter((meta) => meta.tags.includes(tag))
+      .map((meta) => ({ ...meta, content: '' }));
   }
 }

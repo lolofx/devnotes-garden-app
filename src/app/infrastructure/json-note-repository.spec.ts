@@ -83,4 +83,13 @@ describe('JsonNoteRepository', () => {
     const note = await promise;
     expect(note).toBeUndefined();
   });
+
+  it('should return all notes without content when getAllNotes is called', async () => {
+    const promise = repo.getAllNotes();
+    httpMock.expectOne('/assets/content-index.json').flush(MOCK_INDEX);
+    const notes = await promise;
+    expect(notes).toHaveLength(2);
+    expect(notes[0]?.content).toBe('');
+    expect(notes[0]?.slug).toBe('note-b');
+  });
 });

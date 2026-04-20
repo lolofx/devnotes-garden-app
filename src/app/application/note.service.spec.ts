@@ -25,6 +25,9 @@ describe('NoteService', () => {
     mockRepo = {
       getNoteBySlug: vi.fn(),
       getRecentNotes: vi.fn(),
+      getAllNotes: vi.fn(),
+      getAllTags: vi.fn(),
+      getNotesByTag: vi.fn(),
     };
 
     TestBed.configureTestingModule({

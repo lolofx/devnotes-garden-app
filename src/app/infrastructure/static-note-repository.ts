@@ -1,5 +1,6 @@
 import { type Note } from '../domain/note.model';
 import { type NoteRepository } from '../domain/note-repository';
+import { type Tag } from '../domain/tag.model';
 
 const HARDCODED_NOTE: Note = {
   title: 'Introduction au Bounded Context',
@@ -44,5 +45,17 @@ export class StaticNoteRepository implements NoteRepository {
 
   async getRecentNotes(count: number): Promise<readonly Note[]> {
     return [HARDCODED_NOTE].slice(0, count);
+  }
+
+  async getAllNotes(): Promise<readonly Note[]> {
+    return [HARDCODED_NOTE];
+  }
+
+  async getAllTags(): Promise<readonly Tag[]> {
+    return HARDCODED_NOTE.tags.map((tag) => ({ name: tag, noteCount: 1 }));
+  }
+
+  async getNotesByTag(tag: string): Promise<readonly Note[]> {
+    return HARDCODED_NOTE.tags.includes(tag) ? [HARDCODED_NOTE] : [];
   }
 }
