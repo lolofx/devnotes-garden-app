@@ -51,3 +51,6 @@ content-source/
 # Env
 .env
 .env.*
+
+# Git worktrees
+.worktrees/
