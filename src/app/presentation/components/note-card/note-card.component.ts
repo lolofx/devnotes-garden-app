@@ -8,9 +8,9 @@ import { type Note } from '../../../domain/note.model';
   imports: [RouterLink],
   template: `
     <article class="note-card">
-      <h3>
+      <h2>
         <a [routerLink]="['/notes', note().slug]">{{ note().title }}</a>
-      </h3>
+      </h2>
       <p class="note-card__summary">{{ note().summary }}</p>
       <div class="note-card__meta">
         <time>{{ note().updated }}</time>
