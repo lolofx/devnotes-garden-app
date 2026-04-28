@@ -21,6 +21,27 @@
     }
   }
 
+  &__reset {
+    display: block;
+    margin: 0.5rem auto;
+    padding: 0.25rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--c-border-hi);
+    border-radius: 4px;
+    color: var(--c-text-2);
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+
+    &:hover {
+      color: var(--c-accent-hi);
+      border-color: var(--c-accent-hi);
+    }
+  }
+
   &__error {
     padding: 1rem;
     color: var(--es-hotspot);
