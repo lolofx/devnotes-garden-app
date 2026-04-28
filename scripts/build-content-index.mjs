@@ -6,8 +6,8 @@ import matter from 'gray-matter';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const CONTENT_SOURCE = join(ROOT, 'content-source', 'notes');
-const ASSETS_CONTENT = join(ROOT, 'src', 'assets', 'content');
-const INDEX_OUTPUT = join(ROOT, 'src', 'assets', 'content-index.json');
+const ASSETS_CONTENT = join(ROOT, 'public', 'assets', 'content');
+const INDEX_OUTPUT = join(ROOT, 'public', 'assets', 'content-index.json');
 
 const REQUIRED_FIELDS = ['title', 'slug', 'tags', 'created', 'updated', 'summary'];
 
@@ -48,7 +48,7 @@ async function main() {
     console.warn('[warn] content-source/notes/ introuvable — index vide généré');
     mkdirSync(ASSETS_CONTENT, { recursive: true });
     writeFileSync(INDEX_OUTPUT, JSON.stringify([], null, 2));
-    console.log('[ok] 0 note(s) indexée(s) → src/assets/content-index.json');
+    console.log('[ok] 0 note(s) indexée(s) → public/assets/content-index.json');
     return;
   }
 
@@ -88,7 +88,7 @@ async function main() {
 
   index.sort((a, b) => b.updated.localeCompare(a.updated));
   writeFileSync(INDEX_OUTPUT, JSON.stringify(index, null, 2));
-  console.log(`[ok] ${index.length} note(s) indexée(s) → src/assets/content-index.json`);
+  console.log(`[ok] ${index.length} note(s) indexée(s) → public/assets/content-index.json`);
 }
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];

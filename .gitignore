@@ -44,8 +44,8 @@ __screenshots__/
 Thumbs.db
 
 # Build artifacts (generated at build time)
-src/assets/content-index.json
-src/assets/content/
+public/assets/content-index.json
+public/assets/content/
 content-source/
 
 # Env
