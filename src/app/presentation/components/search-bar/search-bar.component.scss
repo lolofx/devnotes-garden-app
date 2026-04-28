@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 220px;
+}
+
+.search-bar {
+  width: 100%;
+  font-family: var(--ff-body);
+
+  // Remove default bottom padding from mat-form-field
+  &.mat-mdc-form-field {
+    font-size: 13px;
+  }
+}

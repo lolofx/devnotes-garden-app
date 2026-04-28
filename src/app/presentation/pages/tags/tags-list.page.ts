@@ -8,6 +8,7 @@ import { TagBadgeComponent } from '../../components/tag-badge/tag-badge.componen
   selector: 'app-tags-list-page',
   standalone: true,
   imports: [TagBadgeComponent],
+  styleUrl: './tags-list.page.scss',
   template: `
     <div class="tags-list-page">
       <h1>Tags</h1>

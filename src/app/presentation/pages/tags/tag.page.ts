@@ -13,6 +13,7 @@ const EMPTY_NOTES: readonly Note[] = [];
   selector: 'app-tag-page',
   standalone: true,
   imports: [NoteCardComponent],
+  styleUrl: './tag.page.scss',
   template: `
     <div class="tag-page">
       <h1>#{{ tagName() }}</h1>

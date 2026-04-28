@@ -1,18 +1,232 @@
 @use '@angular/material' as mat;
 
-$theme: mat.define-theme(
+$dark-theme: mat.define-theme(
   (
     color: (
-      theme-type: light,
+      theme-type: dark,
       primary: mat.$azure-palette,
     ),
     typography: (
-      plain-family: Roboto,
-      brand-family: Roboto,
+      plain-family: 'Sora',
+      brand-family: 'Cormorant Garamond',
     ),
   )
 );
 
 html {
-  @include mat.all-component-themes($theme);
+  @include mat.core();
+  @include mat.all-component-themes($dark-theme);
+}
+
+// ─── Design tokens ────────────────────────────────────────────────────────────
+
+:root {
+  --c-bg: #0c0b0a;
+  --c-surface: #161412;
+  --c-surface-hi: #1f1c19;
+  --c-border: #26231e;
+  --c-border-hi: #3a3630;
+  --c-text: #ede7dc;
+  --c-text-2: #8b8278;
+  --c-text-3: #504b45;
+  --c-accent: #c97b1a;
+  --c-accent-hi: #e09030;
+  --c-accent-dim: rgba(201, 123, 26, 0.13);
+  --c-green: #5e9b6e;
+  --c-green-bg: #111a14;
+
+  --ff-display: 'Cormorant Garamond', Georgia, serif;
+  --ff-body: 'Sora', system-ui, sans-serif;
+  --ff-mono: 'JetBrains Mono', monospace;
+
+  --sidebar-w: 260px;
+  --toolbar-h: 60px;
+  --content-max: 720px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+// ─── Material variable overrides ──────────────────────────────────────────────
+
+html {
+  --mat-sidenav-container-background-color: var(--c-surface);
+  --mat-sidenav-container-divider-color: var(--c-border);
+  --mat-toolbar-container-background-color: var(--c-bg);
+  --mat-toolbar-container-text-color: var(--c-text);
+  --mat-option-selected-state-label-text-color: var(--c-accent-hi);
+  --mat-option-label-text-font: var(--ff-body);
+  --mat-option-label-text-size: 13px;
+}
+
+// ─── Reset / base ─────────────────────────────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--ff-body);
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--c-accent-hi);
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--c-accent);
+  }
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-border-hi);
+  border-radius: 3px;
+}
+
+// ─── Material container / drawer ──────────────────────────────────────────────
+
+.mat-drawer-container {
+  background: var(--c-bg) !important;
+  color: var(--c-text) !important;
+}
+
+.mat-drawer {
+  background: var(--c-surface) !important;
+  border-right: 1px solid var(--c-border) !important;
+  box-shadow: none !important;
+}
+
+// ─── Toolbar ──────────────────────────────────────────────────────────────────
+
+mat-toolbar.layout-toolbar {
+  background: var(--c-bg) !important;
+  color: var(--c-text) !important;
+  height: var(--toolbar-h) !important;
+  min-height: var(--toolbar-h) !important;
+  border-bottom: 1px solid var(--c-border);
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+// ─── Autocomplete ─────────────────────────────────────────────────────────────
+
+.mat-mdc-autocomplete-panel {
+  background: var(--c-surface-hi) !important;
+  border: 1px solid var(--c-border-hi) !important;
+  border-radius: 0 0 8px 8px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+
+  .mat-mdc-option {
+    font-family: var(--ff-body) !important;
+    font-size: 13px !important;
+    color: var(--c-text) !important;
+    min-height: 40px !important;
+
+    &:hover,
+    &.mat-mdc-option-active {
+      background: var(--c-accent-dim) !important;
+    }
+  }
+}
+
+// ─── Material Chips ───────────────────────────────────────────────────────────
+
+.mat-mdc-chip.mat-mdc-standard-chip {
+  background: var(--c-green-bg) !important;
+  color: var(--c-green) !important;
+  border: 1px solid rgba(94, 155, 110, 0.25) !important;
+  font-family: var(--ff-mono) !important;
+  font-size: 11px !important;
+  height: 22px !important;
+  border-radius: 3px !important;
+  padding: 0 8px !important;
+
+  .mdc-evolution-chip__text-label {
+    color: var(--c-green) !important;
+  }
+
+  &:hover {
+    background: rgba(94, 155, 110, 0.1) !important;
+  }
+}
+
+// ─── Search bar Material form field ───────────────────────────────────────────
+
+.search-bar {
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--c-border-hi) !important;
+  }
+
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--c-accent) !important;
+    }
+  }
+
+  input.mat-mdc-input-element {
+    color: var(--c-text) !important;
+    font-family: var(--ff-body) !important;
+    font-size: 13px !important;
+    caret-color: var(--c-accent) !important;
+
+    &::placeholder {
+      color: var(--c-text-3) !important;
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
 }

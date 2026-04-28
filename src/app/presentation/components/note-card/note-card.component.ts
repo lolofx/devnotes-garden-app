@@ -15,11 +15,12 @@ import { type Note } from '../../../domain/note.model';
       <div class="note-card__meta">
         <time>{{ note().updated }}</time>
         @for (tag of note().tags; track tag) {
-          <span class="note-card__tag">{{ tag }}</span>
+          <a [routerLink]="['/tags', tag]" class="note-card__tag">{{ tag }}</a>
         }
       </div>
     </article>
   `,
+  styleUrl: './note-card.component.scss',
 })
 export class NoteCardComponent {
   readonly note = input.required<Note>();

@@ -8,6 +8,7 @@ import { type Note } from '../../../domain/note.model';
   selector: 'app-note-page',
   standalone: true,
   imports: [MarkdownComponent, RouterLink],
+  styleUrl: './note.page.scss',
   template: `
     <div class="note-page">
       <nav class="breadcrumb">

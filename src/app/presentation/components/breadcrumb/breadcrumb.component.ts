@@ -17,6 +17,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   selector: 'app-breadcrumb',
   standalone: true,
   imports: [RouterLink],
+  styleUrl: './breadcrumb.component.scss',
   template: `
     <nav aria-label="breadcrumb" class="breadcrumb">
       <ol>

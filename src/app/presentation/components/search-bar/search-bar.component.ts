@@ -12,6 +12,7 @@ import { NoteService } from '../../../application/note.service';
   selector: 'app-search-bar',
   standalone: true,
   imports: [RouterLink, MatAutocompleteModule, MatInputModule, MatFormFieldModule],
+  styleUrl: './search-bar.component.scss',
   template: `
     <mat-form-field appearance="outline" class="search-bar">
       <input

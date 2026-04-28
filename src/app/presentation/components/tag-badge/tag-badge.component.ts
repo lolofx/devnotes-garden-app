@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
   selector: 'app-tag-badge',
   standalone: true,
   imports: [RouterLink, MatChipsModule],
+  styleUrl: './tag-badge.component.scss',
   template: `
     <a [routerLink]="['/tags', tag()]" class="tag-badge-link">
       <mat-chip>{{ tag() }}</mat-chip>

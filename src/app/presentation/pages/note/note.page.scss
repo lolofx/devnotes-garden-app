@@ -1,0 +1,223 @@
+:host {
+  display: block;
+  animation: fadeSlideIn 0.35s var(--ease-out) both;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.note-page {
+  max-width: var(--content-max);
+
+  // The layout already renders a breadcrumb — hide the inline one
+  > nav.breadcrumb {
+    display: none;
+  }
+
+  .loading {
+    color: var(--c-text-3);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  article {
+    header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--c-border);
+
+      h1 {
+        font-size: 2.6rem;
+        font-weight: 600;
+        line-height: 1.15;
+        margin-bottom: 0.6rem;
+        letter-spacing: -0.01em;
+      }
+
+      .summary {
+        color: var(--c-text-2);
+        font-size: 15px;
+        font-style: italic;
+        font-family: var(--ff-display);
+        margin-bottom: 1rem;
+      }
+
+      .tags {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+
+        .tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 8px;
+          border-radius: 3px;
+          font-size: 11px;
+          font-family: var(--ff-mono);
+          background: var(--c-green-bg);
+          color: var(--c-green);
+          border: 1px solid rgba(94, 155, 110, 0.2);
+        }
+      }
+    }
+  }
+
+  // ─── Markdown content ───────────────────────────────────────────────────────
+
+  markdown {
+    display: block;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--ff-display);
+      color: var(--c-text);
+      margin-top: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.65rem;
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 0.35em;
+    }
+    h3 {
+      font-size: 1.35rem;
+    }
+
+    p {
+      color: var(--c-text-2);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 1.1em;
+    }
+
+    strong {
+      color: var(--c-text);
+      font-weight: 600;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    a {
+      color: var(--c-accent-hi);
+      border-bottom: 1px solid rgba(224, 144, 48, 0.3);
+      transition: border-color 0.15s ease;
+
+      &:hover {
+        color: var(--c-accent);
+        border-color: var(--c-accent);
+      }
+    }
+
+    code {
+      font-family: var(--ff-mono);
+      font-size: 0.865em;
+      background: var(--c-surface-hi);
+      color: var(--c-accent-hi);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    pre {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border-hi);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 1.5em 0;
+
+      code {
+        background: none;
+        padding: 0;
+        color: var(--c-text);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5em;
+      margin-bottom: 1.1em;
+
+      li {
+        color: var(--c-text-2);
+        font-size: 15px;
+        line-height: 1.75;
+        margin-bottom: 0.3em;
+      }
+    }
+
+    ul li::marker {
+      color: var(--c-accent);
+    }
+
+    blockquote {
+      margin: 1.75em 0;
+      padding: 0.9rem 1.25rem;
+      border-left: 2px solid var(--c-accent);
+      background: var(--c-accent-dim);
+      border-radius: 0 6px 6px 0;
+
+      p {
+        color: var(--c-text-2);
+        font-style: italic;
+        font-family: var(--ff-display);
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--c-border);
+      margin: 2.5em 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5em 0;
+      font-size: 13.5px;
+
+      th {
+        background: var(--c-surface-hi);
+        color: var(--c-text);
+        padding: 0.55rem 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--c-border-hi);
+        font-family: var(--ff-body);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--c-border);
+        color: var(--c-text-2);
+        line-height: 1.6;
+      }
+
+      tr:hover td {
+        background: var(--c-surface);
+      }
+    }
+  }
+}

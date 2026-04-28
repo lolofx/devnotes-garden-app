@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.layout-container {
+  height: 100%;
+}
+
+.layout-sidenav {
+  width: var(--sidebar-w);
+}
+
+.layout-toolbar {
+  &__title {
+    font-family: var(--ff-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--c-text);
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+}
+
+.layout-main {
+  padding: 2rem 2.5rem;
+  max-width: calc(var(--content-max) + 5rem);
+  min-height: calc(100vh - var(--toolbar-h));
+}

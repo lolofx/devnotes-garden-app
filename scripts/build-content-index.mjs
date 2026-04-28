@@ -82,7 +82,7 @@ async function main() {
   const index = deduplicated.map(({ content: _c, _sourcePath, ...meta }) => {
     const dest = join(ASSETS_CONTENT, meta.theme, `${meta.slug}.md`);
     mkdirSync(dirname(dest), { recursive: true });
-    writeFileSync(dest, matter.stringify(content ?? '', meta));
+    writeFileSync(dest, content ?? '');
     return meta;
   });
 

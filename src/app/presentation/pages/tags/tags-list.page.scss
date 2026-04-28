@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  animation: fadeSlideIn 0.35s var(--ease-out) both;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tags-list-page {
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .tags-list {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tag-count {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    color: var(--c-text-3);
+    margin-left: -0.25rem;
+  }
+}

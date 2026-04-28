@@ -42,7 +42,7 @@ import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.comp
               <mat-icon>menu</mat-icon>
             </button>
           }
-          <span class="layout-toolbar__title">devnotes-garden</span>
+          <span class="layout-toolbar__title">devnotes·garden</span>
           <span class="layout-toolbar__spacer"></span>
           <app-search-bar />
         </mat-toolbar>
@@ -54,22 +54,7 @@ import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.comp
       </mat-sidenav-content>
     </mat-sidenav-container>
   `,
-  styles: [
-    `
-      .layout-container {
-        height: 100vh;
-      }
-      .layout-sidenav {
-        width: 280px;
-      }
-      .layout-toolbar__spacer {
-        flex: 1;
-      }
-      .layout-main {
-        padding: 1.5rem;
-      }
-    `,
-  ],
+  styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);

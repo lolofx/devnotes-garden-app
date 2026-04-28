@@ -13,7 +13,7 @@ const LS_KEY = 'sidebar-expanded-themes';
   imports: [RouterLink],
   template: `
     <nav class="sidebar-nav">
-      <a routerLink="/" class="sidebar-nav__home">devnotes-garden</a>
+      <a routerLink="/" class="sidebar-nav__home">devnotes·garden</a>
       <ul class="sidebar-nav__themes">
         @for (theme of themes(); track theme.name) {
           <li class="sidebar-nav__theme">
@@ -36,8 +36,12 @@ const LS_KEY = 'sidebar-expanded-themes';
           </li>
         }
       </ul>
+      <div class="sidebar-nav__footer">
+        <a routerLink="/tags"> <span>#</span> Tags </a>
+      </div>
     </nav>
   `,
+  styleUrl: './sidebar-nav.component.scss',
 })
 export class SidebarNavComponent implements OnInit {
   private readonly themeService = inject(ThemeService);

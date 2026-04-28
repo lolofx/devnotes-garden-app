@@ -23,12 +23,18 @@ const FALLBACK_NOTES: readonly Note[] = [
   selector: 'app-home-page',
   standalone: true,
   imports: [NoteCardComponent],
+  styleUrl: './home.page.scss',
   template: `
     <div class="home-page">
-      <h1>Notes récentes</h1>
-      @for (note of notes() ?? fallback; track note.slug) {
-        <app-note-card [note]="note" />
-      }
+      <header class="home-page__hero">
+        <h1 class="home-page__title">Notes récentes</h1>
+        <p class="home-page__subtitle">Un jardin de notes techniques en croissance.</p>
+      </header>
+      <section class="home-page__notes">
+        @for (note of notes() ?? fallback; track note.slug) {
+          <app-note-card [note]="note" />
+        }
+      </section>
     </div>
   `,
 })

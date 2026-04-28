@@ -1,0 +1,83 @@
+.note-card {
+  padding: 1.25rem 0 1.25rem 1rem;
+  border-bottom: 1px solid var(--c-border);
+  position: relative;
+  transition: border-color 0.2s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.25rem;
+    bottom: 1.25rem;
+    width: 2px;
+    background: var(--c-accent);
+    border-radius: 1px;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  &:hover::before {
+    transform: scaleY(1);
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+
+    a {
+      color: var(--c-text);
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: var(--c-accent-hi);
+      }
+    }
+  }
+
+  &__summary {
+    color: var(--c-text-2);
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 0.75rem;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+    flex-wrap: wrap;
+
+    time {
+      font-family: var(--ff-mono);
+      font-size: 10.5px;
+      color: var(--c-text-3);
+      letter-spacing: 0.04em;
+    }
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 10.5px;
+    font-family: var(--ff-mono);
+    background: var(--c-green-bg);
+    color: var(--c-green);
+    border: 1px solid rgba(94, 155, 110, 0.2);
+    transition:
+      background 0.13s ease,
+      border-color 0.13s ease;
+
+    &:hover {
+      background: rgba(94, 155, 110, 0.1);
+      border-color: rgba(94, 155, 110, 0.4);
+      color: var(--c-green);
+    }
+  }
+}
