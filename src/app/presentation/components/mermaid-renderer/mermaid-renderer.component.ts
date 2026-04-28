@@ -15,6 +15,12 @@ import { EventStormingTransformer } from '../../../infrastructure/event-storming
 
 let idCounter = 0;
 
+interface PanzoomInstance {
+  dispose(): void;
+  moveTo(x: number, y: number): void;
+  zoomAbs(x: number, y: number, scale: number): void;
+}
+
 @Component({
   selector: 'app-mermaid-renderer',
   standalone: true,
@@ -22,6 +28,16 @@ let idCounter = 0;
   template: `
     <div class="mermaid-renderer">
       <div #container class="mermaid-renderer__diagram"></div>
+      @if (hasPanzoom()) {
+        <button
+          class="mermaid-renderer__reset"
+          type="button"
+          (click)="resetZoom()"
+          aria-label="Réinitialiser le zoom"
+        >
+          ⟳ Reset zoom
+        </button>
+      }
       @if (renderError()) {
         <pre class="mermaid-renderer__error">{{ renderError() }}</pre>
       }
@@ -37,8 +53,9 @@ export class MermaidRendererComponent implements OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly transformer = inject(EventStormingTransformer);
   private readonly injector = inject(Injector);
-  private panzoomInstance: { dispose(): void } | null = null;
+  private panzoomInstance: PanzoomInstance | null = null;
   readonly renderError = signal('');
+  readonly hasPanzoom = signal(false);
 
   constructor() {
     afterNextRender(() => {
@@ -53,6 +70,15 @@ export class MermaidRendererComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.panzoomInstance?.dispose();
+  }
+
+  resetZoom(): void {
+    this.panzoomInstance?.moveTo(0, 0);
+    this.panzoomInstance?.zoomAbs(0, 0, 1);
+  }
+
+  private isTouchDevice(): boolean {
+    return window.matchMedia('(pointer: coarse)').matches;
   }
 
   private async renderDiagram(code: string, lang: 'mermaid' | 'event-storming'): Promise<void> {
@@ -86,10 +112,16 @@ export class MermaidRendererComponent implements OnDestroy {
       this.renderError.set('');
 
       this.panzoomInstance?.dispose();
-      const svgEl = container.querySelector('svg');
-      if (svgEl) {
-        const panzoom = (await import('panzoom')).default;
-        this.panzoomInstance = panzoom(svgEl, { smoothScroll: false });
+      this.panzoomInstance = null;
+      this.hasPanzoom.set(false);
+
+      if (!this.isTouchDevice()) {
+        const svgEl = container.querySelector('svg');
+        if (svgEl) {
+          const panzoom = (await import('panzoom')).default;
+          this.panzoomInstance = panzoom(svgEl, { smoothScroll: false });
+          this.hasPanzoom.set(true);
+        }
       }
     } catch (err) {
       this.renderError.set(String(err));
