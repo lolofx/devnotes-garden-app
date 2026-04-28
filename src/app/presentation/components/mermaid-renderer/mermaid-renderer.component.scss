@@ -1,0 +1,31 @@
+.mermaid-renderer {
+  margin: 2em 0;
+  border: 1px solid var(--c-border-hi);
+  border-radius: 8px;
+  background: var(--c-surface);
+  overflow: hidden;
+
+  &__diagram {
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__error {
+    padding: 1rem;
+    color: var(--es-hotspot);
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    white-space: pre-wrap;
+  }
+}

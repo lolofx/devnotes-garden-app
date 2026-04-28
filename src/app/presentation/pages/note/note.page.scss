@@ -17,11 +17,6 @@
 .note-page {
   max-width: var(--content-max);
 
-  // The layout already renders a breadcrumb — hide the inline one
-  > nav.breadcrumb {
-    display: none;
-  }
-
   .loading {
     color: var(--c-text-3);
     font-style: italic;

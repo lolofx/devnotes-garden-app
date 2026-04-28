@@ -1,0 +1,21 @@
+// Event Storming normalized color palette (RM04)
+$es-domain-event: #ff9800;
+$es-command: #03a9f4;
+$es-actor: #ffeb3b;
+$es-policy: #9c27b0;
+$es-read-model: #8bc34a;
+$es-aggregate: #fbc02d;
+$es-external-system: #e91e63;
+$es-hotspot: #f44336;
+
+// CSS custom properties for runtime use (e.g. in Mermaid theme variables)
+:root {
+  --es-domain-event: #{$es-domain-event};
+  --es-command: #{$es-command};
+  --es-actor: #{$es-actor};
+  --es-policy: #{$es-policy};
+  --es-read-model: #{$es-read-model};
+  --es-aggregate: #{$es-aggregate};
+  --es-external-system: #{$es-external-system};
+  --es-hotspot: #{$es-hotspot};
+}
