@@ -167,13 +167,13 @@
 - [x] Recherche insensible à la casse et aux accents (RM10)
 - [x] Debounce 200ms (UC-02)
 - [x] Composant `SearchBar` affiche les résultats en dropdown (mat-autocomplete)
-- [ ] Highlight du terme recherché dans les extraits
+- [x] Highlight du terme recherché dans les extraits
 - [x] Min 2 caractères avant déclenchement
 - [x] Tests du service
 
 ### T3.5 — `Breadcrumb`
 - [x] Composant `BreadcrumbComponent` créé, intégré dans `MainLayout`
-- [ ] Affiché sur `NotePage` et `TagPage` (intégration dans les pages à vérifier)
+- [x] Affiché sur `NotePage` et `TagPage` via `MainLayout` (breadcrumb inline redondant supprimé)
 - [x] Format : `Accueil > [Thème ou Tags] > [Titre ou TagName]`
 
 ### T3.6 — `MainLayout`
@@ -192,33 +192,33 @@
 **Objectif** : diagrammes Mermaid rendus avec le code couleur Event Storming normalisé.
 
 ### T4.1 — `MermaidRenderer` (composant)
-- [ ] Composant standalone `MermaidRendererComponent`
-- [ ] Input signal `code: string`
-- [ ] Détecte le langage (`mermaid` vs `event-storming`)
-- [ ] Initialise Mermaid avec thème `base` + `themeVariables` custom
-- [ ] Génère le SVG, insère dans le DOM via `innerHTML` + sanitizer Angular
-- [ ] Tests basiques (rendering d'un graphe simple)
+- [x] Composant standalone `MermaidRendererComponent`
+- [x] Input signal `code: string` (required) + `lang: 'mermaid' | 'event-storming'`
+- [x] Détecte le langage (`mermaid` vs `event-storming`)
+- [x] Initialise Mermaid avec thème `base` + `themeVariables` custom (couleurs Atelier)
+- [x] Génère le SVG, insère dans le DOM via `innerHTML`
+- [x] Tests basiques (rendering d'un graphe simple)
 
 ### T4.2 — Transformateur DSL `event-storming` → Mermaid
-- [ ] Service `EventStormingTransformer` dans `infrastructure`
-- [ ] Parse la syntaxe DSL (actor, command, event, policy, readModel, aggregate, externalSystem, hotspot)
-- [ ] Génère le Mermaid avec `classDef` appliqués (voir ARCHITECTURE.md §6.3)
-- [ ] Tests unitaires complets (TDD strict)
+- [x] Service `EventStormingTransformer` dans `infrastructure`
+- [x] Parse la syntaxe DSL (actor, command, event, policy, readModel, aggregate, externalSystem, hotspot)
+- [x] Génère le Mermaid avec `classDef` appliqués (voir ARCHITECTURE.md §6.3)
+- [x] Tests unitaires complets (TDD strict)
 
 ### T4.3 — Intégration dans le rendu Markdown
-- [ ] Plugin ngx-markdown pour détecter les blocs ```mermaid et ```event-storming
-- [ ] Remplace le bloc par un `MermaidRendererComponent`
-- [ ] Les autres blocs de code restent traités par Prism
+- [x] `ContentSegmentParser` découpe le contenu en segments markdown / mermaid / event-storming
+- [x] `NotePage` utilise les segments pour alterner `<markdown>` et `<app-mermaid-renderer>`
+- [x] Les autres blocs de code restent traités par ngx-markdown / Prism
 
 ### T4.4 — Zoom & pan sur diagrammes
-- [ ] Intégration `panzoom` sur chaque SVG généré
+- [x] Intégration `panzoom` sur chaque SVG généré (cursor grab)
 - [ ] Bouton reset zoom
 - [ ] Désactivé sur mobile (tap et scroll classique)
 
 ### T4.5 — Palette Event Storming en SCSS
-- [ ] `_event-storming.scss` avec les 8 variables couleur (RM04)
-- [ ] `_mermaid-theme.scss` qui injecte les variables dans Mermaid au runtime
-- [ ] Cohérence visuelle entre mode clair et sombre
+- [x] `_event-storming.scss` avec les 8 variables couleur (RM04) + CSS custom properties
+- [x] Thème Mermaid custom injecté via `themeVariables` dans `MermaidRendererComponent` au runtime
+- [x] Cohérence visuelle avec le thème Atelier dark
 
 **Démo Phase 4** : une note contenant un diagramme `event-storming` s'affiche avec les couleurs normalisées + zoom fonctionnel.
 

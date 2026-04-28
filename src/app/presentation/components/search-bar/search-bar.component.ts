@@ -7,11 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { type Note } from '../../../domain/note.model';
 import { NoteService } from '../../../application/note.service';
+import { HighlightPipe } from '../../pipes/highlight/highlight.pipe';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [RouterLink, MatAutocompleteModule, MatInputModule, MatFormFieldModule],
+  imports: [RouterLink, MatAutocompleteModule, MatInputModule, MatFormFieldModule, HighlightPipe],
   styleUrl: './search-bar.component.scss',
   template: `
     <mat-form-field appearance="outline" class="search-bar">
@@ -21,10 +22,13 @@ import { NoteService } from '../../../application/note.service';
         placeholder="Rechercher..."
         (input)="onInput($event)"
       />
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" class="search-autocomplete">
         @for (note of results(); track note.slug) {
-          <mat-option [routerLink]="['/notes', note.slug]">
-            {{ note.title }}
+          <mat-option [routerLink]="['/notes', note.slug]" [value]="note.title">
+            <span class="result-title" [innerHTML]="note.title | highlight: query()"></span>
+            @if (note.summary) {
+              <span class="result-summary">{{ note.summary }}</span>
+            }
           </mat-option>
         }
       </mat-autocomplete>

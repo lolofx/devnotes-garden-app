@@ -7,8 +7,30 @@
   width: 100%;
   font-family: var(--ff-body);
 
-  // Remove default bottom padding from mat-form-field
   &.mat-mdc-form-field {
     font-size: 13px;
   }
+}
+
+.result-title {
+  display: block;
+  font-size: 13px;
+  color: var(--c-text);
+
+  mark {
+    background: var(--c-accent-dim);
+    color: var(--c-accent-hi);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+}
+
+.result-summary {
+  display: block;
+  font-size: 11px;
+  color: var(--c-text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280px;
 }
