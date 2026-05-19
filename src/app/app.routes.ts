@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -18,6 +19,17 @@ export const routes: Routes = [
     path: 'tags/:tagName',
     loadComponent: () => import('./presentation/pages/tags/tag.page').then((m) => m.TagPage),
   },
+  ...(isDevMode()
+    ? [
+        {
+          path: 'dev-preview',
+          loadComponent: () =>
+            import('./presentation/pages/dev-preview/dev-preview.page').then(
+              (m) => m.DevPreviewPage,
+            ),
+        },
+      ]
+    : []),
   {
     path: '**',
     loadComponent: () =>

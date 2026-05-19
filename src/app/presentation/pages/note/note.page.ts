@@ -1,5 +1,7 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { MarkdownComponent } from 'ngx-markdown';
 import { NoteService } from '../../../application/note.service';
 import { type Note } from '../../../domain/note.model';
@@ -41,7 +43,7 @@ import { MermaidRendererComponent } from '../../components/mermaid-renderer/merm
     </div>
   `,
 })
-export class NotePage implements OnInit {
+export class NotePage {
   private readonly route = inject(ActivatedRoute);
   private readonly noteService = inject(NoteService);
 
@@ -50,10 +52,21 @@ export class NotePage implements OnInit {
 
   readonly segments = computed(() => parseContentSegments(this.note()?.content ?? ''));
 
-  async ngOnInit(): Promise<void> {
-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    const note = await this.noteService.getNoteBySlug(slug);
-    this.note.set(note);
-    this.loading.set(false);
+  private readonly slug = toSignal(
+    this.route.paramMap.pipe(map((params) => params.get('slug') ?? '')),
+    { initialValue: '' },
+  );
+
+  constructor() {
+    effect(() => {
+      const slug = this.slug();
+      if (!slug) return;
+      this.loading.set(true);
+      this.note.set(undefined);
+      void this.noteService.getNoteBySlug(slug).then((note) => {
+        this.note.set(note);
+        this.loading.set(false);
+      });
+    });
   }
 }
