@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
 import { NotePage } from './note.page';
 import { NoteService } from '../../../application/note.service';
 import { type Note } from '../../../domain/note.model';
@@ -24,7 +25,9 @@ describe('NotePage', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: { get: () => 'bounded-context-intro' } } },
+          useValue: {
+            paramMap: of(convertToParamMap({ slug: 'bounded-context-intro' })),
+          },
         },
         {
           provide: NoteService,
