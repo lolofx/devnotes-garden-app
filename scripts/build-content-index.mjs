@@ -86,7 +86,7 @@ async function main() {
     return meta;
   });
 
-  index.sort((a, b) => b.updated.localeCompare(a.updated));
+  index.sort((a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime());
   writeFileSync(INDEX_OUTPUT, JSON.stringify(index, null, 2));
   console.log(`[ok] ${index.length} note(s) indexée(s) → public/assets/content-index.json`);
 }
