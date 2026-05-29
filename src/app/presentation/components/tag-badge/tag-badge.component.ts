@@ -1,15 +1,14 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-tag-badge',
   standalone: true,
-  imports: [RouterLink, MatChipsModule],
+  imports: [RouterLink],
   styleUrl: './tag-badge.component.scss',
   template: `
     <a [routerLink]="['/tags', tag()]" class="tag-badge-link">
-      <mat-chip>{{ tag() }}</mat-chip>
+      <span class="tag-badge">{{ tag() }}</span>
     </a>
   `,
 })

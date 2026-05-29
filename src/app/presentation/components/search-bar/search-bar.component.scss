@@ -8,19 +8,19 @@
   font-family: var(--ff-body);
 
   &.mat-mdc-form-field {
-    font-size: 13px;
+    font-size: 13.5px;
   }
 }
 
 .result-title {
   display: block;
   font-size: 13px;
-  color: var(--c-text);
+  color: var(--ink);
 
   mark {
-    background: var(--c-accent-dim);
-    color: var(--c-accent-hi);
-    border-radius: 2px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    border-radius: 3px;
     padding: 0 2px;
   }
 }
@@ -28,7 +28,7 @@
 .result-summary {
   display: block;
   font-size: 11px;
-  color: var(--c-text-3);
+  color: var(--ink-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -178,7 +178,7 @@
 
 ### T3.6 — `MainLayout`
 - [x] Header avec logo/titre, `SearchBar`
-- [ ] `ThemeToggle` (dark/light mode — prévu en Phase 5)
+- [x] `ThemeToggle` dark/light mode intégré dans la topbar (Phase 5)
 - [x] Sidebar à gauche avec `SidebarNav`
 - [x] Zone de contenu principale
 - [x] Responsive : sidebar devient drawer sur mobile
@@ -230,56 +230,52 @@
 
 ### T5.1 — Activer le skill `frontend-design`
 - [x] Skill invoqué et appliqué
-- [x] Principes appliqués : tokens de design, typographie, espacement, hiérarchie visuelle
+- [x] Direction visuelle : warm minimal éditorial
 
 ### T5.2 — Design tokens (`styles.scss`)
-- [x] Palette principale en CSS custom properties (bg, surface, accent amber, green, text)
-- [x] Échelle de typographie (Cormorant Garamond display, Sora body, JetBrains Mono)
-- [x] Espacement cohérent (base 1rem / 0.25rem)
-- [x] Border-radius défini (`--radius-sm/md/lg` via tokens)
-- [ ] Ombres (non nécessaires avec le thème flat/dark actuel)
+- [x] Palette warm white (`#FAFAF7` bg, `#2D6A4F` accent forêt) + dark mode (`#16151A`)
+- [x] Couleurs par catégorie : `.NET` vert, `DDD` violet, `Angular` rouge, `Infra` bleu
+- [x] Typographie : Fraunces (serif display), DM Sans (corps), JetBrains Mono (code)
+- [x] Tokens sable pour les bordures (`--sand`, `--sand-soft`, `--sand-strong`)
+- [x] Ombres warm (`--shadow-sm/md/pop`)
 
 ### T5.3 — `ThemeToggle` + dark/light mode
-- [ ] Service `ThemeService` avec signal `currentTheme`
-- [ ] Au premier chargement, suit `prefers-color-scheme`
-- [ ] Toggle persiste en localStorage
-- [ ] Transition CSS douce entre thèmes
-- [ ] `_light.scss` + `_dark.scss` appliqués via attribute `data-theme`
-
-> Note : thème dark-only pour le MVP. ThemeToggle reporté post-MVP.
+- [x] `ColorSchemeService` avec signal `scheme` (light/dark)
+- [x] Au premier chargement, suit `prefers-color-scheme`
+- [x] Toggle persiste en localStorage (`garden-scheme`)
+- [x] Transition CSS douce 350ms entre thèmes via `data-theme` sur `<html>`
+- [x] Icône lune/soleil dans la topbar
 
 ### T5.4 — Typographie et mise en page des notes
-- [x] Cormorant Garamond (display) + Sora (corps) — polices distinctives chargées via Google Fonts
+- [x] Fraunces (serif display) + DM Sans (corps) — chargées via Google Fonts
 - [x] Largeur max contenu `720px` (`--content-max`)
-- [x] Marges généreuses (`2rem 2.5rem`)
-- [x] Style distinct pour h1/h2/h3 (tailles, border-bottom sur h2), citations (amber), listes, code inline
+- [x] Prose Markdown : h2 avec border-bottom, blockquotes accent, listes avec marqueurs stylés
+- [x] Lede italique (résumé de note) en Fraunces
 
 ### T5.5 — Animations et micro-interactions
 - [x] Transition de page : fade + slide-up 350ms sur chaque page
-- [x] Hover states : barre amber animée sur NoteCard, couleur sur liens sidebar
-- [ ] Focus visible accessible (à vérifier)
-- [ ] Loading state pour le fetch du `.md` (affiché "Chargement..." sans style — post-MVP)
+- [x] Hover states : barre accent sur NoteCard, couleur sur liens sidebar
+- [x] Topbar glassmorphism avec border au scroll
 
-### T5.6 — Responsive et accessibilité
-- [x] Sidebar en drawer sur mobile (mat-sidenav `mode="over"` sur Handset)
-- [x] Bouton hamburger sur mobile
-- [x] Contraste WCAG AA — `--c-text-3` remplacé par `--c-text-2` sur time + lien Tags
-- [ ] Navigation clavier complète (à vérifier)
-- [x] `aria-expanded` sur les toggles sidebar, `aria-label` sur le bouton menu
+### T5.6 — Layout 3 colonnes + responsive
+- [x] Layout CSS grid 3 colonnes : sidebar (248px) + prose (max 720px) + TOC (200px)
+- [x] Sidebar sticky avec brand mark, catégories collapsibles (dots colorés), section Récents
+- [x] TOC droite avec scroll-spy (IntersectionObserver) et barre de progression lecture
+- [x] Tablette : sidebar en drawer overlay, TOC masquée
+- [x] Mobile : drawer hamburger full-screen, layout 1 colonne
+- [x] `aria-expanded` sur les toggles sidebar, `aria-label` sur les boutons
 
 ### T5.7 — Page d'accueil
-- [x] Hero avec titre + pitch "Un jardin de notes techniques en croissance."
-- [x] Section "Notes récentes" avec NoteCards soignées (titre Cormorant, tags verts, barre amber)
-- [ ] Section "Parcours par thème" avec les thèmes (sidebar suffit pour le MVP)
-- [ ] Footer minimal (post-MVP)
+- [x] Hero avec titre + pitch en italique Fraunces
+- [x] Section "Notes récentes" avec NoteCards (titre display, tags accent pills, barre hover)
 
 ### T5.8 — Audit Lighthouse
 - [ ] Performance > 90 (non mesuré sur dev server)
-- [x] Accessibility : **100** ✅ (color-contrast, heading-order, meta-description corrigés)
+- [x] Accessibility : **100** ✅
 - [x] Best Practices : **100** ✅
 - [x] SEO : **100** ✅
 
-**Démo Phase 5** : thème "Atelier" dark déployé, typographie distinctive, notes lisibles, navigation fonctionnelle et esthétique.
+**Démo Phase 5** : design warm minimal éditorial déployé — typographie Fraunces/DM Sans, layout 3 colonnes, dark mode, TOC avec scroll-spy, sidebar avec catégories colorées et récents.
 
 ---
 

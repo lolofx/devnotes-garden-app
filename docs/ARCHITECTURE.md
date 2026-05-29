@@ -51,7 +51,8 @@ graph TB
     A1[NoteService]
     A2[SearchService]
     A3[ThemeService]
-    A4[NavigationService]
+    A4[ColorSchemeService]
+    A5[TocService]
   end
 
   subgraph Domain[Domain — modèles purs]
@@ -98,7 +99,8 @@ src/
 │   │   ├── search.service.ts
 │   │   ├── search.service.spec.ts
 │   │   ├── theme.service.ts
-│   │   └── navigation.service.ts
+│   │   ├── color-scheme.service.ts    # Toggle dark/light, signal + localStorage
+│   │   └── toc.service.ts             # Table of contents partagée layout↔note page
 │   │
 │   ├── infrastructure/              # Accès données, parsing, adapters
 │   │   ├── note-repository.ts
@@ -117,11 +119,13 @@ src/
 │   │   │   ├── search-bar/
 │   │   │   ├── note-card/
 │   │   │   ├── sidebar-nav/
-│   │   │   ├── theme-toggle/
+│   │   │   ├── toc/                   # Table of contents (scroll-spy, barre lecture)
 │   │   │   ├── mermaid-renderer/
-│   │   │   └── breadcrumb/
+│   │   │   ├── breadcrumb/
+│   │   │   ├── share-button/
+│   │   │   └── tag-badge/
 │   │   └── layout/
-│   │       └── main-layout/
+│   │       └── main-layout/           # Grid 3 colonnes + drawer mobile + topbar
 │   │
 │   ├── app.config.ts                # Providers globaux (signals, routing, http)
 │   ├── app.routes.ts                # Lazy loading par feature
@@ -131,14 +135,8 @@ src/
 │   ├── content-index.json           # Généré au build, listé dans .gitignore
 │   └── content/                     # Notes .md copiées au build
 │
-├── styles/
-│   ├── _tokens.scss                 # Variables design (couleurs, typo, spacing)
-│   ├── _event-storming.scss         # Palette Event Storming
-│   ├── _mermaid-theme.scss          # Thème Mermaid custom
-│   ├── themes/
-│   │   ├── _light.scss
-│   │   └── _dark.scss
-│   └── styles.scss
+├── _event-storming.scss             # Palette Event Storming (couleurs Mermaid)
+└── styles.scss                      # Design tokens warm minimal + dark mode + prose
 │
 └── main.ts
 ```
