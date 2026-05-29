@@ -6,6 +6,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { NoteService } from '../../../application/note.service';
 import { type Note } from '../../../domain/note.model';
 import { parseContentSegments } from '../../../infrastructure/content-segment-parser';
+import { rewriteNoteLinks } from '../../../infrastructure/note-link-rewriter';
 import { MermaidRendererComponent } from '../../components/mermaid-renderer/mermaid-renderer.component';
 import { ShareButtonComponent } from '../../components/share-button/share-button.component';
 
@@ -54,7 +55,9 @@ export class NotePage {
   readonly note = signal<Note | undefined>(undefined);
   readonly loading = signal(true);
 
-  readonly segments = computed(() => parseContentSegments(this.note()?.content ?? ''));
+  readonly segments = computed(() =>
+    parseContentSegments(rewriteNoteLinks(this.note()?.content ?? '')),
+  );
 
   private readonly slug = toSignal(
     this.route.paramMap.pipe(map((params) => params.get('slug') ?? '')),
