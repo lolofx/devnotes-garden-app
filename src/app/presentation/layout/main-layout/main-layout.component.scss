@@ -1,32 +1,205 @@
 :host {
   display: block;
-  height: 100%;
 }
 
-.layout-container {
-  height: 100%;
-}
+// ─── Scrim ────────────────────────────────────────────────────────────────────
 
-.layout-sidenav {
-  width: var(--sidebar-w);
-}
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(20, 18, 12, 0.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
 
-.layout-toolbar {
-  &__title {
-    font-family: var(--ff-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--c-text);
-  }
-
-  &__spacer {
-    flex: 1;
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 
-.layout-main {
-  padding: 2rem 2.5rem;
-  max-width: calc(var(--content-max) + 5rem);
-  min-height: calc(100vh - var(--toolbar-h));
+// ─── App grid ─────────────────────────────────────────────────────────────────
+
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--toc-w);
+  min-height: 100vh;
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+
+.sidebar {
+  grid-column: 1;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--sand);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--sand-strong) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--sand-strong);
+    border-radius: 8px;
+  }
+}
+
+// ─── Main content ─────────────────────────────────────────────────────────────
+
+.main {
+  grid-column: 2;
+  min-width: 0;
+  padding: 0 56px;
+}
+
+.main-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 38px 0 120px;
+}
+
+// ─── Topbar ───────────────────────────────────────────────────────────────────
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--toolbar-h);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid transparent;
+  margin: 0 -56px;
+  padding: 0 56px;
+  transition: border-color 0.2s;
+
+  &.scrolled {
+    border-bottom-color: var(--sand);
+  }
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--sand);
+  background: var(--bg-raised);
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+
+  &:hover {
+    background: var(--bg-sunken);
+    color: var(--ink);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.hamburger {
+  display: none;
+}
+
+.tablet-toggle {
+  display: none;
+}
+
+// ─── TOC column ───────────────────────────────────────────────────────────────
+
+.toc-col {
+  grid-column: 3;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: var(--toolbar-h) 24px 40px 8px;
+  scrollbar-width: thin;
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 1279px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .toc-col {
+    display: none;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    width: 300px;
+    max-width: 84vw;
+    transform: translateX(-104%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-pop);
+    border-right: 1px solid var(--sand);
+  }
+
+  .app.nav-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .main {
+    grid-column: 1;
+    padding: 0 40px;
+  }
+
+  .topbar {
+    margin: 0 -40px;
+    padding: 0 40px;
+  }
+
+  .tablet-toggle {
+    display: grid;
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    padding: 0 16px;
+  }
+
+  .main-inner {
+    padding: 24px 0 100px;
+  }
+
+  .topbar {
+    margin: 0 -16px;
+    padding: 0 16px;
+    height: 52px;
+  }
+
+  .tablet-toggle {
+    display: none;
+  }
+
+  .hamburger {
+    display: grid;
+  }
 }

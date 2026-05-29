@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.toc-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  font-family: var(--ff-body);
+  margin-bottom: 12px;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--sand);
+
+  a {
+    display: block;
+    padding: 5px 0 5px 14px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--ink-muted);
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+
+    &:hover {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    &.sub {
+      padding-left: 26px;
+      font-size: 12px;
+    }
+
+    &.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 500;
+    }
+  }
+}
+
+.toc-progress {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sand);
+}
+
+.toc-progress-label {
+  font-size: 11px;
+  font-family: var(--ff-mono);
+  color: var(--ink-muted);
+  margin-bottom: 7px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toc-bar {
+  height: 4px;
+  background: var(--bg-sunken);
+  border-radius: 4px;
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.1s linear;
+  }
+}
