@@ -7,11 +7,12 @@ import { NoteService } from '../../../application/note.service';
 import { type Note } from '../../../domain/note.model';
 import { parseContentSegments } from '../../../infrastructure/content-segment-parser';
 import { MermaidRendererComponent } from '../../components/mermaid-renderer/mermaid-renderer.component';
+import { ShareButtonComponent } from '../../components/share-button/share-button.component';
 
 @Component({
   selector: 'app-note-page',
   standalone: true,
-  imports: [MarkdownComponent, MermaidRendererComponent, RouterLink],
+  imports: [MarkdownComponent, MermaidRendererComponent, RouterLink, ShareButtonComponent],
   styleUrl: './note.page.scss',
   template: `
     <div class="note-page">
@@ -20,10 +21,13 @@ import { MermaidRendererComponent } from '../../components/mermaid-renderer/merm
       } @else if (note()) {
         <article>
           <header>
-            <h1>{{ note()?.title }}</h1>
-            <p class="summary">{{ note()?.summary }}</p>
+            <div class="header-top">
+              <h1>{{ note()!.title }}</h1>
+              <app-share-button [title]="note()!.title" />
+            </div>
+            <p class="summary">{{ note()!.summary }}</p>
             <div class="tags">
-              @for (tag of note()?.tags ?? []; track tag) {
+              @for (tag of note()!.tags; track tag) {
                 <a class="tag" [routerLink]="['/tags', tag]">{{ tag }}</a>
               }
             </div>
