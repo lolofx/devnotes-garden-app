@@ -1,14 +1,26 @@
 .mermaid-renderer {
   margin: 2em 0;
-  border: 1px solid var(--c-border-hi);
+  border: 1px solid var(--sand);
   border-radius: 8px;
-  background: var(--c-surface);
+  background: var(--bg-raised);
   overflow: hidden;
+  transition:
+    margin 0.3s var(--ease-out),
+    width 0.3s var(--ease-out);
+
+  &--wide {
+    // Break out of the 720px prose constraint by bleeding into the main column padding
+    // The main column has 56px padding on each side (see main-layout.component.scss)
+    margin-inline: calc(-56px);
+    width: calc(100% + 112px);
+    max-width: none;
+  }
 
   &__diagram {
     width: 100%;
     overflow: hidden;
     cursor: grab;
+    position: relative;
 
     &:active {
       cursor: grabbing;
@@ -21,32 +33,113 @@
     }
   }
 
-  &__reset {
-    display: block;
-    margin: 0.5rem auto;
-    padding: 0.25rem 0.75rem;
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    border-top: 1px solid var(--sand);
+    background: var(--bg-sunken);
+  }
+
+  &__toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.25rem 0.6rem;
     background: transparent;
-    border: 1px solid var(--c-border-hi);
+    border: 1px solid var(--sand);
     border-radius: 4px;
-    color: var(--c-text-2);
+    color: var(--ink-muted);
     font-family: var(--ff-mono);
     font-size: 11px;
     cursor: pointer;
     transition:
       color 0.15s,
-      border-color 0.15s;
+      border-color 0.15s,
+      background 0.15s;
 
     &:hover {
-      color: var(--c-accent-hi);
-      border-color: var(--c-accent-hi);
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    &--active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
   }
 
   &__error {
     padding: 1rem;
-    color: var(--es-hotspot);
+    color: #e05252;
     font-family: var(--ff-mono);
     font-size: 12px;
     white-space: pre-wrap;
+  }
+}
+
+// ─── Resize handle ────────────────────────────────────────────────────────────
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  cursor: ns-resize;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 40%,
+    var(--sand) 40%,
+    var(--sand) 60%,
+    transparent 60%
+  );
+  opacity: 0.5;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ─── Fullscreen dialog ────────────────────────────────────────────────────────
+
+dialog.mermaid-fullscreen {
+  width: 95vw;
+  height: 95vh;
+  max-width: none;
+  max-height: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-pop);
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .fullscreen-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--sand);
+    background: var(--bg-sunken);
+  }
+
+  .fullscreen-container {
+    width: 100%;
+    height: calc(100% - 48px);
+    overflow: hidden;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 }

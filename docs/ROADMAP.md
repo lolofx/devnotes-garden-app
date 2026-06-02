@@ -279,16 +279,37 @@
 
 ---
 
+## Améliorations post-MVP réalisées
+
+### Coloration syntaxique (Prism.js)
+- [x] Prism core + 9 langages (typescript, csharp, sql, javascript, json, yaml, bash, markup, scss)
+- [x] Thème custom adaptatif dark/light via CSS variables — zéro fichier CSS externe
+- [x] Activation automatique via ngx-markdown (Prism détecté globalement)
+
+### Toolbar diagrammes Mermaid
+- [x] Bouton Wide (⇔) : sort de la colonne prose, occupe la pleine largeur
+- [x] Bouton Fullscreen (⛶) : dialog natif 95vw×95vh + panzoom dédié + Échap pour fermer
+- [x] Handle resize en hauteur (200–1200px)
+- [x] Panzoom préservé dans tous les modes
+
+### Alpha-testing
+- [x] `test-fixtures/notes/` avec 5 notes [ALPHA] committées
+- [x] `npm run seed:dev` pour alimenter le dev local sans cloner le repo content
+
+---
+
 ## Après le MVP — Idées pour plus tard
 
-Non spécifié ni planifié, juste pour mémoire :
+Non spécifié ni planifié. Ordre de priorité souhaité :
 
-- Backlinks automatiques entre notes
-- Graphe de notes (vue type Obsidian)
-- Interactivité au clic sur les éléments Event Storming
-- PWA offline
-- Flux RSS
-- Mode présentation (transformer une note en slides)
+1. **Flux RSS** — permettre de s'abonner aux nouvelles notes
+2. **Interactivité Event Storming** — clic sur les éléments du diagramme (zoom, détail, navigation)
+3. **Mode présentation** — transformer une note en slides
+4. **Backlinks automatiques** — liens entre notes qui se référencent mutuellement
+5. **PWA offline** — consultation sans connexion
+6. **Graphe de notes** — vue type Obsidian (navigation visuelle entre notes liées)
+
+Idée en attente de priorité :
 - Commentaires via GitHub Discussions
 
-**Rien de tout ça ne doit polluer le MVP.**
+**Rien de tout ça ne doit polluer le site en production.**

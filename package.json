@@ -10,6 +10,7 @@
     "test:watch": "ng test",
     "test:coverage": "ng test --watch=false --coverage && vitest run --config vitest.config.scripts.mjs",
     "test:scripts": "vitest run --config vitest.config.scripts.mjs",
+    "seed:dev": "node scripts/seed-dev-content.mjs",
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\"",
@@ -40,6 +41,7 @@
     "mermaid": "^11.14.0",
     "ngx-markdown": "^21.2.0",
     "panzoom": "^9.4.4",
+    "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

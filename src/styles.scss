@@ -469,3 +469,128 @@ markdown {
     border-radius: var(--radius);
   }
 }
+
+// ─── Prism syntax theme ───────────────────────────────────────────────────────
+// Light mode tokens — warm editorial palette
+:root {
+  --prism-keyword: #2d6a4f;
+  --prism-string: #a0522d;
+  --prism-comment: #8a8578;
+  --prism-number: #c0392b;
+  --prism-function: #1a4a8a;
+  --prism-operator: #57534a;
+  --prism-punctuation: #8a8578;
+  --prism-class-name: #6a2d8a;
+  --prism-boolean: #c0392b;
+  --prism-property: #2d5a8a;
+  --prism-builtin: #1f6f4d;
+}
+
+// Dark mode tokens — muted warm palette
+[data-theme='dark'] {
+  --prism-keyword: #6fbf9a;
+  --prism-string: #e0a07a;
+  --prism-comment: #7a756b;
+  --prism-number: #e07a7a;
+  --prism-function: #7ab0e8;
+  --prism-operator: #b7b2a8;
+  --prism-punctuation: #6a6560;
+  --prism-class-name: #c09ae0;
+  --prism-boolean: #e07a7a;
+  --prism-property: #7aabe0;
+  --prism-builtin: #6fbf9a;
+}
+
+// Token styles (scoped under pre code to avoid leaking outside code blocks)
+pre[class*='language-'],
+pre code[class*='language-'] {
+  color: var(--ink);
+  background: none;
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre;
+  tab-size: 2;
+}
+
+code[class*='language-'] {
+  .token {
+    &.keyword {
+      color: var(--prism-keyword);
+      font-style: italic;
+    }
+
+    &.string,
+    &.attr-value,
+    &.template-string {
+      color: var(--prism-string);
+    }
+
+    &.comment,
+    &.block-comment,
+    &.prolog,
+    &.doctype {
+      color: var(--prism-comment);
+      font-style: italic;
+    }
+
+    &.number,
+    &.unit {
+      color: var(--prism-number);
+    }
+
+    &.function,
+    &.function-name {
+      color: var(--prism-function);
+    }
+
+    &.operator,
+    &.entity {
+      color: var(--prism-operator);
+    }
+
+    &.punctuation,
+    &.cdata {
+      color: var(--prism-punctuation);
+    }
+
+    &.class-name,
+    &.maybe-class-name,
+    &.namespace {
+      color: var(--prism-class-name);
+    }
+
+    &.boolean,
+    &.constant {
+      color: var(--prism-boolean);
+    }
+
+    &.property,
+    &.attr-name,
+    &.selector {
+      color: var(--prism-property);
+    }
+
+    &.builtin,
+    &.symbol {
+      color: var(--prism-builtin);
+    }
+
+    &.important,
+    &.bold {
+      font-weight: 600;
+    }
+
+    &.italic {
+      font-style: italic;
+    }
+
+    &.deleted {
+      color: var(--prism-boolean);
+    }
+
+    &.inserted {
+      color: var(--prism-builtin);
+    }
+  }
+}
