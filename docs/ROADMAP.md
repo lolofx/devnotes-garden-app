@@ -281,14 +281,16 @@
 
 ## Après le MVP — Idées pour plus tard
 
-Non spécifié ni planifié, juste pour mémoire :
+Non spécifié ni planifié. Ordre de priorité souhaité :
 
-- Backlinks automatiques entre notes
-- Graphe de notes (vue type Obsidian)
-- Interactivité au clic sur les éléments Event Storming
-- PWA offline
-- Flux RSS
-- Mode présentation (transformer une note en slides)
+1. **Flux RSS** — permettre de s'abonner aux nouvelles notes
+2. **Interactivité Event Storming** — clic sur les éléments du diagramme (zoom, détail, navigation)
+3. **Mode présentation** — transformer une note en slides
+4. **Backlinks automatiques** — liens entre notes qui se référencent mutuellement
+5. **PWA offline** — consultation sans connexion
+6. **Graphe de notes** — vue type Obsidian (navigation visuelle entre notes liées)
+
+Idée en attente de priorité :
 - Commentaires via GitHub Discussions
 
-**Rien de tout ça ne doit polluer le MVP.**
+**Rien de tout ça ne doit polluer le site en production.**
