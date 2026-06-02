@@ -279,6 +279,25 @@
 
 ---
 
+## Améliorations post-MVP réalisées
+
+### Coloration syntaxique (Prism.js)
+- [x] Prism core + 9 langages (typescript, csharp, sql, javascript, json, yaml, bash, markup, scss)
+- [x] Thème custom adaptatif dark/light via CSS variables — zéro fichier CSS externe
+- [x] Activation automatique via ngx-markdown (Prism détecté globalement)
+
+### Toolbar diagrammes Mermaid
+- [x] Bouton Wide (⇔) : sort de la colonne prose, occupe la pleine largeur
+- [x] Bouton Fullscreen (⛶) : dialog natif 95vw×95vh + panzoom dédié + Échap pour fermer
+- [x] Handle resize en hauteur (200–1200px)
+- [x] Panzoom préservé dans tous les modes
+
+### Alpha-testing
+- [x] `test-fixtures/notes/` avec 5 notes [ALPHA] committées
+- [x] `npm run seed:dev` pour alimenter le dev local sans cloner le repo content
+
+---
+
 ## Après le MVP — Idées pour plus tard
 
 Non spécifié ni planifié. Ordre de priorité souhaité :

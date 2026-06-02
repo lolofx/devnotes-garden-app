@@ -175,7 +175,10 @@ export const routes: Routes = [
 │   ├── ROADMAP.md
 │   └── CLAUDE.md
 ├── scripts/
-│   └── build-content-index.mjs      # génère content-index.json au build
+│   ├── build-content-index.mjs      # génère content-index.json au build
+│   └── seed-dev-content.mjs         # copie test-fixtures/ → content-source/ pour dev local
+├── test-fixtures/
+│   └── notes/                       # 5 notes [ALPHA] committées pour alpha-test (npm run seed:dev)
 ├── src/                             # code Angular (voir §2.2)
 ├── .editorconfig
 ├── .gitignore
@@ -352,6 +355,12 @@ Le `MermaidRenderer` (composant Angular) :
 3. Initialise Mermaid avec le thème `base` et les couleurs custom injectées via `themeVariables`
 4. Génère le SVG
 5. Insère dans le DOM avec support du zoom/pan via `panzoom` (lib légère)
+
+**Modes d'affichage** (toolbar toujours visible) :
+- **Normal** : dans la colonne prose 720px, panzoom actif
+- **Wide** (⇔) : sort de la colonne, occupe la pleine largeur disponible — panzoom inchangé
+- **Fullscreen** (⛶) : `<dialog>` natif 95vw×95vh, nouvelle instance panzoom dédiée, Échap pour fermer
+- **Resize** : handle en bas de la zone (200–1200px)
 
 ### 6.3 Exemple de transformation DSL → Mermaid
 
