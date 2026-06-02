@@ -38,12 +38,12 @@ describe('MermaidRendererComponent', () => {
     expect(el.querySelector('.mermaid-renderer')).not.toBeNull();
   });
 
-  it('should not show reset button before panzoom is initialized', () => {
+  it('should always show toolbar', () => {
     const fixture = TestBed.createComponent(MermaidRendererComponent);
     fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
     fixture.detectChanges();
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.querySelector('.mermaid-renderer__reset')).toBeNull();
+    expect(el.querySelector('.mermaid-renderer__toolbar')).not.toBeNull();
   });
 
   it('should not throw when resetZoom() is called without panzoom initialized', () => {
@@ -62,5 +62,66 @@ describe('MermaidRendererComponent', () => {
     fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
     fixture.detectChanges();
     expect(mockPanzoom).not.toHaveBeenCalled();
+  });
+
+  it('should initialize isWide signal to false', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.isWide()).toBe(false);
+  });
+
+  it('should initialize isFullscreen signal to false', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.isFullscreen()).toBe(false);
+  });
+
+  it('should initialize containerHeight signal to 320', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.containerHeight()).toBe(320);
+  });
+
+  it('should toggle isWide when toggleWide() is called', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.isWide()).toBe(false);
+    fixture.componentInstance.toggleWide();
+    expect(fixture.componentInstance.isWide()).toBe(true);
+    fixture.componentInstance.toggleWide();
+    expect(fixture.componentInstance.isWide()).toBe(false);
+  });
+
+  it('should apply wide class to wrapper when isWide is true', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    fixture.componentInstance.toggleWide();
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.querySelector('.mermaid-renderer--wide')).not.toBeNull();
+  });
+
+  it('should set containerHeight within bounds when resize occurs', () => {
+    const fixture = TestBed.createComponent(MermaidRendererComponent);
+    fixture.componentRef.setInput('code', 'graph LR\n  A-->B');
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+
+    // Simulate resize start at y=100, height=320
+    const mousedownEvent = new MouseEvent('mousedown', { clientY: 100 });
+    component.onResizeStart(mousedownEvent);
+
+    // Simulate moving up by 200px — new height = 320 - 200 = 120, clamped to 200
+    const mousemoveEvent = new MouseEvent('mousemove', { clientY: -100 });
+    document.dispatchEvent(mousemoveEvent);
+    expect(component.containerHeight()).toBe(200);
+
+    // Simulate mouse up
+    document.dispatchEvent(new MouseEvent('mouseup'));
   });
 });
