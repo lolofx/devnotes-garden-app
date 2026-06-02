@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateFrontMatter, deriveTheme, deduplicateSlugs } from './build-content-index.mjs';
+import { validateFrontMatter, deriveTheme, deduplicateSlugs, generateRssFeed } from './build-content-index.mjs';
 
 describe('deriveTheme', () => {
   it('should extract theme from file path', () => {
@@ -70,5 +70,79 @@ describe('deduplicateSlugs', () => {
       { slug: 'slug-b', updated: '2026-04-17', title: 'B' },
     ];
     expect(deduplicateSlugs(notes)).toHaveLength(2);
+  });
+});
+
+describe('generateRssFeed', () => {
+  const SITE_URL = 'https://garden.leplomb.work';
+
+  const notes = [
+    {
+      slug: 'bounded-context-intro',
+      title: 'Introduction au Bounded Context',
+      summary: 'Comment découper un système complexe.',
+      updated: '2026-04-16',
+      tags: ['ddd'],
+      theme: 'ddd',
+    },
+    {
+      slug: 'event-storming-colors',
+      title: 'Palette Event Storming',
+      summary: 'Les couleurs normalisées.',
+      updated: '2026-04-10',
+      tags: ['event-storming'],
+      theme: 'event-storming',
+    },
+  ];
+
+  it('should return a string starting with xml declaration', () => {
+    const xml = generateRssFeed(notes, SITE_URL);
+    expect(xml).toMatch(/^<\?xml version="1\.0" encoding="UTF-8"\?>/);
+  });
+
+  it('should include channel title and link', () => {
+    const xml = generateRssFeed(notes, SITE_URL);
+    expect(xml).toContain('<title>devnotes·garden</title>');
+    expect(xml).toContain(`<link>${SITE_URL}</link>`);
+  });
+
+  it('should include one item per note', () => {
+    const xml = generateRssFeed(notes, SITE_URL);
+    const itemCount = (xml.match(/<item>/g) ?? []).length;
+    expect(itemCount).toBe(2);
+  });
+
+  it('should set item link and guid to note url', () => {
+    const xml = generateRssFeed(notes, SITE_URL);
+    expect(xml).toContain(`<link>${SITE_URL}/notes/bounded-context-intro</link>`);
+    expect(xml).toContain(`<guid>${SITE_URL}/notes/bounded-context-intro</guid>`);
+  });
+
+  it('should format pubDate in RFC 822 format', () => {
+    const xml = generateRssFeed(notes, SITE_URL);
+    expect(xml).toMatch(/<pubDate>[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} 00:00:00 \+0000<\/pubDate>/);
+  });
+
+  it('should escape XML special characters in title and summary', () => {
+    const xml = generateRssFeed(
+      [
+        {
+          slug: 'test',
+          title: 'Titre & <test>',
+          summary: 'Résumé avec "guillemets"',
+          updated: '2026-01-01',
+          tags: [],
+          theme: 'ddd',
+        },
+      ],
+      SITE_URL,
+    );
+    expect(xml).toContain('Titre &amp; &lt;test&gt;');
+    expect(xml).toContain('Résumé avec &quot;guillemets&quot;');
+  });
+
+  it('should return no items when notes array is empty', () => {
+    const xml = generateRssFeed([], SITE_URL);
+    expect(xml).not.toContain('<item>');
   });
 });
