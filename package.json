@@ -10,6 +10,7 @@
     "test:watch": "ng test",
     "test:coverage": "ng test --watch=false --coverage && vitest run --config vitest.config.scripts.mjs",
     "test:scripts": "vitest run --config vitest.config.scripts.mjs",
+    "seed:dev": "node scripts/seed-dev-content.mjs",
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\"",
