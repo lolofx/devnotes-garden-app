@@ -22,11 +22,7 @@ rtk npm run lint && rtk npm run test && rtk npm run build
 
 ### GitHub CLI
 
-`gh` est installé dans `C:\Program Files\GitHub CLI\` mais n'est pas dans le PATH de Git Bash. Avant chaque commande `rtk gh ...` :
-
-```bash
-export PATH="$PATH:/c/Program Files/GitHub CLI"
-```
+`gh` est dans le PATH (`/usr/bin/gh`), aucune manipulation préalable n'est nécessaire.
 
 Pour pousser via HTTPS (pas SSH), configurer une fois :
 ```bash
@@ -42,13 +38,31 @@ Digital garden personnel Angular 21, hébergé sur Azure Static Web Apps, qui af
 - `docs/ARCHITECTURE.md` — architecture technique (Clean Archi allégée, structure dossiers)
 - `docs/ROADMAP.md` — découpe en phases et tickets
 
+### Chaîne de contenu
+
+Le contenu vient du repo séparé [devnotes-garden-content](https://github.com/lolofx/devnotes-garden-content). `scripts/build-content-index.mjs` le lit depuis `content-source/notes/` et produit quatre sorties, toutes gitignorées car régénérées à chaque build :
+
+| Sortie | Rôle |
+|---|---|
+| `public/assets/content-index.json` | métadonnées de toutes les notes publiées, frontmatter compris |
+| `public/assets/content/<theme>/<slug>.md` | le markdown brut de chaque note |
+| `public/rss.xml` | flux RSS |
+| `public/llms.txt` | index lisible par un agent ([llmstxt.org](https://llmstxt.org)) |
+
+Règles à connaître avant de toucher ce script :
+- Le `theme` est dérivé du **premier** niveau sous `notes/` — un sous-dossier serait invisible.
+- Toute note en `draft: true` est exclue des quatre sorties. **Une note sans champ `draft` est publiée** (le test est `draft === true`).
+- Les champs de frontmatter inconnus sont repassés tels quels dans l'index : le repo de contenu peut enrichir ses métadonnées sans modification côté app.
+- Les slugs sont dédupliqués globalement, la note la plus récente gagne — la route est plate (`/notes/:slug`).
+- `generateRssFeed` échappe le XML, `generateLlmsTxt` non (c'est du markdown). Les tests couvrent cette différence.
+
 ---
 
 ## Environnement de développement
 
-- **OS** : Windows (utiliser la syntaxe bash Unix via Git Bash, pas PowerShell)
-- **Python** : non installé — ne jamais utiliser Python ni de scripts `.py`
-- **RTK** : toutes les commandes bash doivent être préfixées par `rtk` (ex : `rtk npm run build`, `rtk git status`). Voir le global `CLAUDE.md` pour la référence complète.
+- **OS** : WSL2 Ubuntu (Linux). Syntaxe bash standard.
+- **Node** : via nvm. **Python 3** : disponible (`/usr/bin/python3`).
+- **RTK** : le hook Claude Code réécrit les commandes automatiquement, il n'y a rien à préfixer à la main. Voir le `CLAUDE.md` global pour la référence.
 
 ---
 
