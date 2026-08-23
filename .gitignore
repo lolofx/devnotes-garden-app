@@ -46,6 +46,8 @@ Thumbs.db
 # Build artifacts (generated at build time)
 public/assets/content-index.json
 public/assets/content/
+public/rss.xml
+public/llms.txt
 content-source/
 
 # Env
