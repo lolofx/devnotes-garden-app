@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { validateFrontMatter, deriveTheme, deduplicateSlugs, generateRssFeed } from './build-content-index.mjs';
+import {
+  validateFrontMatter,
+  deriveTheme,
+  deduplicateSlugs,
+  generateRssFeed,
+  generateLlmsTxt,
+} from './build-content-index.mjs';
 
 describe('deriveTheme', () => {
   it('should extract theme from file path', () => {
@@ -144,5 +150,52 @@ describe('generateRssFeed', () => {
   it('should return no items when notes array is empty', () => {
     const xml = generateRssFeed([], SITE_URL);
     expect(xml).not.toContain('<item>');
+  });
+});
+
+describe('generateLlmsTxt', () => {
+  const notes = [
+    { title: 'Ports & Adapters', slug: 'ports-et-adapters', summary: 'La règle de dépendance.', theme: 'hexagonal' },
+    { title: 'Outbox Pattern', slug: 'outbox-pattern', summary: 'Publication fiable.', theme: 'messaging' },
+    { title: 'Inbox Pattern', slug: 'inbox-pattern', summary: 'Consommation idempotente.', theme: 'messaging' },
+  ];
+
+  it('should start with the garden heading and a summary blockquote', () => {
+    const output = generateLlmsTxt(notes);
+    expect(output.startsWith('# devnotes·garden')).toBe(true);
+    expect(output).toContain('\n> Notes techniques');
+  });
+
+  it('should group notes under one H2 section per theme, sorted alphabetically', () => {
+    const output = generateLlmsTxt(notes);
+    const themes = [...output.matchAll(/^## (.+)$/gm)].map((m) => m[1]);
+    expect(themes).toEqual(['hexagonal', 'messaging']);
+  });
+
+  it('should render one item per note with an absolute url and its summary', () => {
+    const output = generateLlmsTxt(notes);
+    expect(output).toContain(
+      '- [Outbox Pattern](https://garden.leplomb.work/notes/outbox-pattern) : Publication fiable.',
+    );
+    expect([...output.matchAll(/^- \[/gm)]).toHaveLength(3);
+  });
+
+  it('should honour a custom site url', () => {
+    const output = generateLlmsTxt(notes, 'https://example.test');
+    expect(output).toContain('https://example.test/notes/inbox-pattern');
+    expect(output).not.toContain('garden.leplomb.work');
+  });
+
+  it('should render the headers and no section when there is no note', () => {
+    const output = generateLlmsTxt([]);
+    expect(output).toContain('# devnotes·garden');
+    expect(output).not.toContain('## ');
+    expect(output).not.toContain('- [');
+  });
+
+  it('should leave markdown special characters untouched, unlike the xml feed', () => {
+    const special = [{ title: 'A & B', slug: 'a-b', summary: 'Un <script> et une esperluette &.', theme: 'ddd' }];
+    expect(generateLlmsTxt(special)).toContain('Un <script> et une esperluette &.');
+    expect(generateRssFeed(special)).toContain('Un &lt;script&gt; et une esperluette &amp;.');
   });
 });

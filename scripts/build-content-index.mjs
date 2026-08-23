@@ -9,6 +9,7 @@ const CONTENT_SOURCE = join(ROOT, 'content-source', 'notes');
 const ASSETS_CONTENT = join(ROOT, 'public', 'assets', 'content');
 const INDEX_OUTPUT = join(ROOT, 'public', 'assets', 'content-index.json');
 const RSS_OUTPUT = join(ROOT, 'public', 'rss.xml');
+const LLMS_OUTPUT = join(ROOT, 'public', 'llms.txt');
 const SITE_URL = 'https://garden.leplomb.work';
 
 const REQUIRED_FIELDS = ['title', 'slug', 'tags', 'created', 'updated', 'summary'];
@@ -65,6 +66,37 @@ ${items}
 </rss>`;
 }
 
+/**
+ * Index lisible par un agent, au format https://llmstxt.org.
+ * Markdown : pas d'échappement XML ici, contrairement au flux RSS.
+ */
+export function generateLlmsTxt(notes, siteUrl = SITE_URL) {
+  const header = [
+    '# devnotes·garden',
+    '',
+    "> Notes techniques sur l'architecture logicielle (DDD, CQRS, Architecture Hexagonale, BFF, messaging, Event Storming) et sur l'ingénierie des agents IA (agents, orchestration, méthode AIDD). Rédigées en français.",
+    '',
+    `Chaque note est lisible en markdown brut sur ${siteUrl}/assets/content/<theme>/<slug>.md, et l'index complet des métadonnées est disponible sur ${siteUrl}/assets/content-index.json.`,
+    '',
+  ];
+
+  const byTheme = new Map();
+  for (const note of notes) {
+    if (!byTheme.has(note.theme)) byTheme.set(note.theme, []);
+    byTheme.get(note.theme).push(note);
+  }
+
+  const sections = [...byTheme.keys()].sort().map((theme) => {
+    const items = byTheme
+      .get(theme)
+      .map((note) => `- [${note.title}](${siteUrl}/notes/${note.slug}) : ${note.summary}`)
+      .join('\n');
+    return `## ${theme}\n\n${items}\n`;
+  });
+
+  return [...header, ...sections].join('\n');
+}
+
 export function deduplicateSlugs(notes) {
   const map = new Map();
   for (const note of notes) {
@@ -90,6 +122,7 @@ async function main() {
     console.warn('[warn] content-source/notes/ introuvable — index vide généré');
     mkdirSync(ASSETS_CONTENT, { recursive: true });
     writeFileSync(INDEX_OUTPUT, JSON.stringify([], null, 2));
+    writeFileSync(LLMS_OUTPUT, generateLlmsTxt([]));
     console.log('[ok] 0 note(s) indexée(s) → public/assets/content-index.json');
     return;
   }
@@ -134,6 +167,9 @@ async function main() {
 
   writeFileSync(RSS_OUTPUT, generateRssFeed(index));
   console.log(`[ok] flux RSS généré → public/rss.xml`);
+
+  writeFileSync(LLMS_OUTPUT, generateLlmsTxt(index));
+  console.log(`[ok] llms.txt généré → public/llms.txt`);
 }
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
