@@ -19,7 +19,9 @@
   border-left: 1px solid var(--sand);
 
   a {
-    display: block;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
     padding: 5px 0 5px 14px;
     margin-left: -1px;
     border-left: 2px solid transparent;

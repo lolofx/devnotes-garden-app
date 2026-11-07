@@ -37,8 +37,9 @@ function getRelativeTime(dateStr: string): string {
   imports: [RouterLink],
   template: `
     <div class="brand">
-      <a routerLink="/" class="brand-mark" (click)="navClose.emit()">
+      <a routerLink="/" class="brand-mark" aria-label="Accueil" (click)="navClose.emit()">
         <svg
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="#FAFAF7"
@@ -58,7 +59,7 @@ function getRelativeTime(dateStr: string): string {
     </div>
 
     <div class="nav-section-label">Catégories</div>
-    <nav class="nav-tree">
+    <nav class="nav-tree" aria-label="Catégories">
       @for (theme of themes(); track theme.name) {
         <div class="cat" [class.collapsed]="!expandedThemes().has(theme.name)">
           <button
@@ -70,6 +71,7 @@ function getRelativeTime(dateStr: string): string {
             <span class="cat-name">{{ theme.name }}</span>
             <span class="cat-count">{{ theme.notes.length }}</span>
             <svg
+              aria-hidden="true"
               class="cat-chevron"
               viewBox="0 0 24 24"
               fill="none"
@@ -113,6 +115,7 @@ function getRelativeTime(dateStr: string): string {
     <div class="nav-footer">
       <a routerLink="/tags" (click)="navClose.emit()">
         <svg
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -129,6 +132,7 @@ function getRelativeTime(dateStr: string): string {
       </a>
       <a href="/rss.xml" class="rss-link" aria-label="Flux RSS">
         <svg
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

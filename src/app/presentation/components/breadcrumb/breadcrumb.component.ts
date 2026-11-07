@@ -19,7 +19,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   imports: [RouterLink],
   styleUrl: './breadcrumb.component.scss',
   template: `
-    <nav aria-label="breadcrumb" class="breadcrumb">
+    <nav aria-label="Fil d'Ariane" class="breadcrumb">
       <ol>
         <li><a routerLink="/">Accueil</a></li>
         @for (crumb of crumbs(); track crumb.link) {
