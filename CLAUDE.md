@@ -13,6 +13,7 @@ rtk npm run lint           # ESLint via ng lint
 rtk npm run format         # Prettier (écriture)
 rtk npm run format:check   # Prettier (vérification seule)
 rtk npm run build          # build production
+rtk npm run a11y           # audit axe-core + contrastes (après un build, voir docs/ACCESSIBILITY.md)
 ```
 
 Vérification pré-commit manuelle :
