@@ -20,17 +20,6 @@ function getCategoryColor(name: string): string {
   return 'var(--accent)';
 }
 
-function getRelativeTime(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const days = Math.floor(diff / 86_400_000);
-  if (days === 0) return "aujourd'hui";
-  if (days === 1) return 'hier';
-  if (days < 7) return `il y a ${days} jours`;
-  if (days < 14) return 'la semaine dernière';
-  if (days < 30) return `il y a ${Math.floor(days / 7)} sem.`;
-  return `il y a ${Math.floor(days / 30)} mois`;
-}
-
 @Component({
   selector: 'app-sidebar-nav',
   standalone: true,
@@ -104,7 +93,6 @@ function getRelativeTime(dateStr: string): string {
         @for (note of recentNotes(); track note.slug) {
           <a class="recent" [routerLink]="['/notes', note.slug]" (click)="navClose.emit()">
             {{ note.title }}
-            <time>{{ getRelativeTime(note.updated) }}</time>
           </a>
         }
       </div>
@@ -186,10 +174,6 @@ export class SidebarNavComponent implements OnInit {
 
   getCategoryColor(name: string): string {
     return getCategoryColor(name);
-  }
-
-  getRelativeTime(dateStr: string): string {
-    return getRelativeTime(dateStr);
   }
 
   toggleTheme(name: string): void {
