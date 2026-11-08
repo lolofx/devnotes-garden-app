@@ -13,7 +13,6 @@ import { type Note } from '../../../domain/note.model';
       </h2>
       <p class="note-card__summary">{{ note().summary }}</p>
       <div class="note-card__meta">
-        <time>{{ note().updated }}</time>
         @for (tag of note().tags; track tag) {
           <a [routerLink]="['/tags', tag]" class="note-card__tag">{{ tag }}</a>
         }

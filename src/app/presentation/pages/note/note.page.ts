@@ -41,10 +41,6 @@ import { ShareButtonComponent } from '../../components/share-button/share-button
             }
             <div class="article-meta">
               <span
-                >Mis à jour le <b>{{ formatDate(note()!.updated) }}</b></span
-              >
-              <span class="dot-sep"></span>
-              <span
                 >Catégorie&nbsp;: <b>{{ note()!.theme }}</b></span
               >
             </div>
@@ -110,14 +106,6 @@ export class NotePage implements OnDestroy {
   ngOnDestroy(): void {
     this.io?.disconnect();
     this.tocService.clear();
-  }
-
-  formatDate(dateStr: string): string {
-    return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
   }
 
   private extractToc(): void {
