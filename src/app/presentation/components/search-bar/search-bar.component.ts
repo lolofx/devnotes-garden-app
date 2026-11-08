@@ -20,6 +20,7 @@ import { HighlightPipe } from '../../pipes/highlight/highlight.pipe';
         matInput
         [matAutocomplete]="auto"
         placeholder="Rechercher..."
+        aria-label="Rechercher une note"
         (input)="onInput($event)"
       />
       <mat-autocomplete #auto="matAutocomplete" class="search-autocomplete">

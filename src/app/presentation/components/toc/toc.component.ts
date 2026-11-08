@@ -26,7 +26,16 @@ import { TocService } from '../../../application/toc.service';
           <span>Lecture</span>
           <span>{{ readPct() }}%</span>
         </div>
-        <div class="toc-bar"><i [style.width.%]="readPct()"></i></div>
+        <div
+          class="toc-bar"
+          role="progressbar"
+          aria-label="Progression de lecture"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="readPct()"
+        >
+          <i [style.width.%]="readPct()"></i>
+        </div>
       </div>
     }
   `,

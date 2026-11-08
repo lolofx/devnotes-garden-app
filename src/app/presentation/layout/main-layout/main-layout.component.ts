@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -14,23 +14,31 @@ import { ColorSchemeService } from '../../../application/color-scheme.service';
   imports: [RouterOutlet, SidebarNavComponent, BreadcrumbComponent, TocComponent],
   styleUrl: './main-layout.component.scss',
   template: `
-    <div
-      class="scrim"
-      [class.show]="navOpen()"
-      (click)="closeNav()"
-      (keydown.escape)="closeNav()"
-      role="presentation"
-    ></div>
+    <a class="skip-link" href="#contenu" (click)="skipToContent($event)">Aller au contenu</a>
+
+    <div class="scrim" [class.show]="navOpen()" (click)="closeNav()" role="presentation"></div>
 
     <div class="app" [class.nav-open]="navOpen()">
-      <aside class="sidebar" id="sidebar">
+      <aside
+        class="sidebar"
+        id="sidebar"
+        aria-label="Menu latéral"
+        [attr.inert]="sidebarInert() ? '' : null"
+      >
         <app-sidebar-nav (navClose)="closeNav()" />
       </aside>
 
-      <main class="main">
+      <main class="main" id="contenu" tabindex="-1">
         <div class="topbar" [class.scrolled]="scrolled()">
-          <button class="icon-btn hamburger" (click)="openNav()" aria-label="Ouvrir la navigation">
+          <button
+            class="icon-btn hamburger"
+            (click)="openNav()"
+            aria-label="Ouvrir la navigation"
+            aria-controls="sidebar"
+            [attr.aria-expanded]="navOpen()"
+          >
             <svg
+              aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -43,9 +51,12 @@ import { ColorSchemeService } from '../../../application/color-scheme.service';
           <button
             class="icon-btn tablet-toggle"
             (click)="toggleNav()"
-            aria-label="Basculer la navigation"
+            aria-label="Afficher ou masquer la navigation"
+            aria-controls="sidebar"
+            [attr.aria-expanded]="navOpen()"
           >
             <svg
+              aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -56,9 +67,16 @@ import { ColorSchemeService } from '../../../application/color-scheme.service';
             </svg>
           </button>
           <span class="topbar-spacer"></span>
-          <button class="icon-btn" (click)="colorScheme.toggle()" aria-label="Basculer le thème">
+          <button
+            class="icon-btn"
+            (click)="colorScheme.toggle()"
+            [attr.aria-label]="
+              colorScheme.scheme() === 'dark' ? 'Passer au thème clair' : 'Passer au thème sombre'
+            "
+          >
             @if (colorScheme.scheme() === 'dark') {
               <svg
+                aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -73,6 +91,7 @@ import { ColorSchemeService } from '../../../application/color-scheme.service';
               </svg>
             } @else {
               <svg
+                aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -91,7 +110,7 @@ import { ColorSchemeService } from '../../../application/color-scheme.service';
         </div>
       </main>
 
-      <aside class="toc-col">
+      <aside class="toc-col" aria-label="Sommaire de la page">
         <app-toc />
       </aside>
     </div>
@@ -109,6 +128,9 @@ export class MainLayoutComponent {
     { initialValue: false },
   );
 
+  /** Hors écran (tablette et mobile) tant que le menu est fermé : ni focus clavier, ni lecteur d'écran. */
+  readonly sidebarInert = computed(() => this.isTabletOrSmaller() && !this.navOpen());
+
   openNav(): void {
     this.navOpen.set(true);
   }
@@ -119,6 +141,16 @@ export class MainLayoutComponent {
 
   toggleNav(): void {
     this.navOpen.update((v) => !v);
+  }
+
+  skipToContent(event: Event): void {
+    event.preventDefault();
+    document.getElementById('contenu')?.focus();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.navOpen()) this.closeNav();
   }
 
   @HostListener('window:scroll', [])

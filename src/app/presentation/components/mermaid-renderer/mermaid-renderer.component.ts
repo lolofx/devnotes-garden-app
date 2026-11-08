@@ -30,9 +30,25 @@ interface PanzoomInstance {
   standalone: true,
   styleUrl: './mermaid-renderer.component.scss',
   template: `
-    <div class="mermaid-renderer" [class.mermaid-renderer--wide]="isWide()">
+    <div
+      class="mermaid-renderer"
+      role="group"
+      aria-label="Diagramme"
+      [class.mermaid-renderer--wide]="isWide()"
+    >
       <div #container class="mermaid-renderer__diagram" [style.height.px]="containerHeight()">
-        <div class="resize-handle" (mousedown)="onResizeStart($event)"></div>
+        <div
+          class="resize-handle"
+          role="separator"
+          aria-orientation="horizontal"
+          aria-label="Hauteur du diagramme"
+          tabindex="0"
+          [attr.aria-valuemin]="minHeight"
+          [attr.aria-valuemax]="maxHeight"
+          [attr.aria-valuenow]="containerHeight()"
+          (mousedown)="onResizeStart($event)"
+          (keydown)="onResizeKey($event)"
+        ></div>
       </div>
 
       <div class="mermaid-renderer__toolbar">
@@ -42,7 +58,7 @@ interface PanzoomInstance {
           (click)="resetZoom()"
           aria-label="Réinitialiser le zoom"
         >
-          ⟳ Reset
+          ⟳ Réinitialiser
         </button>
         <button
           class="mermaid-renderer__toolbar-btn"
@@ -50,8 +66,9 @@ interface PanzoomInstance {
           type="button"
           (click)="toggleWide()"
           aria-label="Mode large"
+          [attr.aria-pressed]="isWide()"
         >
-          ⇔ Wide
+          ⇔ Large
         </button>
         <button
           class="mermaid-renderer__toolbar-btn"
@@ -59,7 +76,7 @@ interface PanzoomInstance {
           (click)="openFullscreen()"
           aria-label="Plein écran"
         >
-          ⛶ Fullscreen
+          ⛶ Plein écran
         </button>
       </div>
 
@@ -68,7 +85,7 @@ interface PanzoomInstance {
       }
     </div>
 
-    <dialog #fullscreenDialog class="mermaid-fullscreen">
+    <dialog #fullscreenDialog class="mermaid-fullscreen" aria-label="Diagramme en plein écran">
       <div class="fullscreen-header">
         <button
           class="mermaid-renderer__toolbar-btn"
@@ -163,6 +180,17 @@ export class MermaidRendererComponent implements OnDestroy {
 
     const container = this.fullscreenContainerRef.nativeElement;
     container.innerHTML = '';
+  }
+
+  readonly minHeight = MIN_HEIGHT;
+  readonly maxHeight = MAX_HEIGHT;
+
+  onResizeKey(event: KeyboardEvent): void {
+    const step = event.shiftKey ? 100 : 20;
+    const delta = event.key === 'ArrowDown' ? step : event.key === 'ArrowUp' ? -step : 0;
+    if (!delta) return;
+    event.preventDefault();
+    this.containerHeight.update((h) => Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, h + delta)));
   }
 
   onResizeStart(event: MouseEvent): void {
